@@ -155,7 +155,7 @@ avg_comparisons(
 
 # Tables from both models ----
 sjPlot::tab_model(fit.2_pow, digits = 3, digits.re = 3) # table 1 (left)
-sjPlot::tab_model(fit.acc2, digits = 3, digits.re = 3) # table 1 (right)
+sjPlot::tab_model(fit.acc3, digits = 3, digits.re = 3) # table 1 (right)
 
 # Plots ----
 # Model predictions:

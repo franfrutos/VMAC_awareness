@@ -73,7 +73,11 @@ acc_ex[["e1"]] <- raw_e1 %>%
   group_by(ID) %>%
   dplyr::summarise(mean_ACC = mean(acc)) %>% filter(mean_ACC < .7) %>% pull(ID)
 
+
 length(unique(acc_ex[["e1"]])) # 1 participants with less than .7 of accuracy that will be excluded from the analysis
+
+# Number of Participants per group
+length(unique(raw_e1$ID))
 
 # Descriptions of data:
 # % of excluded trials
@@ -97,7 +101,7 @@ length(unique(acc_ex[["e1"]])) # 1 participants with less than .7 of accuracy th
       sd_filter = NULL
     )
   )))*100
-# 5.05% incorrect responses
+# 5.08% incorrect responses
 
 (1 - (nrow(
   filter_data(
@@ -120,6 +124,9 @@ length(unique(acc_ex[["e1"]])) # 1 participants with less than .7 of accuracy th
     )
   )))*100
 
+# 0.08 % outliers (RT < 1800 & > 150 ms)
+
+
 (1 - (nrow(
   filter_data(
     raw_e1,
@@ -141,7 +148,7 @@ length(unique(acc_ex[["e1"]])) # 1 participants with less than .7 of accuracy th
     )
   )))*100
 
-# 3.93 % outliers (RT <> 2 SDs)
+# 4.25 % outliers (RT <> 2 SDs)
 
 # Loading data from Experiment 2: ----
 
@@ -222,6 +229,9 @@ raw_e2 %>%
       sd_filter = NULL
     )
   )))*100
+
+# 0.45 % outliers (RT < 1800 & > 150 ms)
+
 
 (1 - (nrow(
   filter_data(
