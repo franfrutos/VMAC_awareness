@@ -18,7 +18,7 @@ The project is organized into the following main sections:
 The **scripts** folder is straightforward:
 
 - *e1_analysis.R*: The script used in the **Result** section of *Experiment 1*.
-- *e2_analysis.R*: The script used in the **Result and discussion** section of *Experiment 1*.
+- *e2_analysis.R*: The script used in the **Result and discussion** section of *Experiment 2*.
 - *multiverse_analysis.R*: The script where the multiverse analysis presented as supplementary material is executed.
 
 All the above .R files implicitly call `source(...)` to run *load_data.R* and *functions.R*. In the former, data are loaded and prepossessed; in the latter, helper functions are loaded into the workspace.
