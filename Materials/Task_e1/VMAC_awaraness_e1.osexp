@@ -1,0 +1,2364 @@
+---
+API: 3
+OpenSesame: 4.0.24
+Platform: nt
+---
+set width 1400
+set uniform_coordinates yes
+set title VMAC_awaraness_e1
+set subject_parity even
+set subject_nr 0
+set start experiment
+set sound_sample_size -16
+set sound_freq 48000
+set sound_channels 2
+set sound_buf_size 1024
+set sampler_backend osweb
+set round_decimals 2
+set mouse_backend osweb
+set keyboard_backend osweb
+set jatos_uuid "29457884-ab53-31c1-deb8-30e5b2290230"
+set height 768
+set fullscreen no
+set form_clicks no
+set foreground white
+set font_underline no
+set font_size 24
+set font_italic False
+set font_family sans
+set font_bold False
+set experiment_path "C:/Users/User/OneDrive/Escritorio/Projects/VMAC_awareness/Materials/Task_e1"
+set disable_garbage_collection False
+set description "The main experiment item"
+set coordinates uniform
+set compensation 0
+set color_backend osweb
+set clock_backend osweb
+set canvas_backend osweb
+set background black
+
+define sequence Awareness
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run init_Text always
+	run Awareness2 always
+
+define loop Awareness2
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set description "Corre otro objeto de forma repetida"
+	set cycles 1
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 empty_column ""
+	run new_sequence
+
+define sequence Awareness_1
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run Random_color always
+	run intro_awar always
+	run keyboard_ins_1 always
+	run Awareness_loop always
+
+define sequence Awareness_2
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run Random_color always
+	run intro_awar2 always
+	run instruction1_key always
+	run Awareness_loop_1 always
+
+define loop Awareness_loop
+	set source_file ""
+	set source table
+	set repeat 1
+	set order sequential
+	set description "Corre otro objeto de forma repetida"
+	set cycles 2
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 Awareness_color "[color1]"
+	setcycle 0 Phase Awareness1
+	setcycle 1 Awareness_color "[color2]"
+	setcycle 1 Phase Awareness1
+	run Awareness
+
+define loop Awareness_loop_1
+	set source_file ""
+	set source table
+	set repeat 1
+	set order sequential
+	set description "Corre otro objeto de forma repetida"
+	set cycles 2
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 Awareness_color "[color1]"
+	setcycle 0 Phase Awareness2
+	setcycle 1 Awareness_color "[color2]"
+	setcycle 1 Phase Awareness2
+	run Awareness
+
+define loop Block_loop
+	set source_file ""
+	set source table
+	set repeat 1
+	set order sequential
+	set description "Corre otro objeto de forma repetida"
+	set cycles 13
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 Block 0
+	setcycle 0 Phase Practice
+	setcycle 1 Block 1
+	setcycle 1 Phase Reward
+	setcycle 2 Block 2
+	setcycle 2 Phase Reward
+	setcycle 3 Block 3
+	setcycle 3 Phase Reward
+	setcycle 4 Block 4
+	setcycle 4 Phase Reward
+	setcycle 5 Block 5
+	setcycle 5 Phase Reward
+	setcycle 6 Block 6
+	setcycle 6 Phase Reward
+	setcycle 7 Block 7
+	setcycle 7 Phase Reward
+	setcycle 8 Block 8
+	setcycle 8 Phase Reward
+	setcycle 9 Block 9
+	setcycle 9 Phase Reward
+	setcycle 10 Block 10
+	setcycle 10 Phase Reward
+	setcycle 11 Block 11
+	setcycle 11 Phase Reward
+	setcycle 12 Block 12
+	setcycle 12 Phase Reward
+	run Block_sequence
+
+define loop Block_loop_2
+	set source_file ""
+	set source table
+	set repeat 1
+	set order sequential
+	set description "Corre otro objeto de forma repetida"
+	set cycles 17
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 Block 0
+	setcycle 0 Phase Practice
+	setcycle 1 Block 0
+	setcycle 1 Phase Practice
+	setcycle 2 Block 1
+	setcycle 2 Phase WM
+	setcycle 3 Block 2
+	setcycle 3 Phase WM
+	setcycle 4 Block 3
+	setcycle 4 Phase WM
+	setcycle 5 Block 4
+	setcycle 5 Phase WM
+	setcycle 6 Block 5
+	setcycle 6 Phase WM
+	setcycle 7 Block 6
+	setcycle 7 Phase WM
+	setcycle 8 Block 7
+	setcycle 8 Phase WM
+	setcycle 9 Block 8
+	setcycle 9 Phase WM
+	setcycle 10 Block 9
+	setcycle 10 Phase WM
+	setcycle 11 Block 10
+	setcycle 11 Phase WM
+	setcycle 12 Block 11
+	setcycle 12 Phase WM
+	setcycle 13 Block 12
+	setcycle 13 Phase WM
+	setcycle 14 Block 13
+	setcycle 14 Phase WM
+	setcycle 15 Block 14
+	setcycle 15 Phase WM
+	setcycle 16 Block 15
+	setcycle 16 Phase WM
+	run WM_Task
+
+define sequence Block_sequence
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run pre_exp "[Phase] = Reward and [Block] = 1"
+	run pre_exp_resp_1 "[Phase] = Reward and [Block] = 1"
+	run instruct2_loop "[Phase] = Reward and [Block] = 1"
+	run Phase_change "[Phase] = Extinction and [Block] = 13"
+	run change_r "[Phase] = Extinction and [Block] = 13"
+	run rest_inst_VMAC always
+	run Trial_loop always
+	run Rest "[Block] = 1 or [Block] = 2 or [Block] = 3 or [Block] = 4 or [Block] = 5 or [Block] = 6 or [Block] = 7 or [Block] = 8 or [Block] = 9 or [Block] = 10 or [Block] = 11 or [Block] = 13 or [Block] = 14 or [Block] = 15 or [Block] = 16 or [Block] = 17 or [Block] = 18 or [Block] = 19 or [Block] = 20 or [Block] = 21 or [Block] = 22 or [Block] = 23"
+	run Rest_response "[Block] = 1 or [Block] = 2 or [Block] = 3 or [Block] = 4 or [Block] = 5 or [Block] = 6 or [Block] = 7 or [Block] = 8 or [Block] = 9 or [Block] = 10 or [Block] = 11 or [Block] = 13 or [Block] = 14 or [Block] = 15 or [Block] = 16 or [Block] = 17 or [Block] = 18 or [Block] = 19 or [Block] = 20 or [Block] = 21 or [Block] = 22 or [Block] = 23"
+
+define sequence Calibration
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run init always
+	run calibration_sequence always
+
+define sketchpad Card_instructions1
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Para estimar las dimensiones de tu monitor, necesitamos comparar la equivalencia entre <br> los pixeles de la pantalla de tu ordenador y un objeto con un tamaño estandárizado, <br> como lo son las <span style='color:red;'>tarjetas de crédito/débito, DNI o carnet de conducir</span>." x=0 y=-240 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Para ello, vamos a presentarte  en pantalla la siguiente forma:" x=0 y=-160 z_index=0
+	draw rect color=white fill=1 h="[h]" penwidth=1 show_if=always w="[w]" x="-[x]" y="[y]" z_index=0
+	draw rect color=red fill=0 h="[h5]" penwidth=5 show_if=always w="[w5]" x="-[x5]" y="[y5]" z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Tu tarea consistirá en tratar de hacer coincidir los laterales de la tarjeta que elijas <br> con <span style='color:red;'>la parte interna de los bordes rojos del rectángulo</span>. " x=0 y=180 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar." x=0 y=240 z_index=0
+
+define sketchpad Card_instructions2
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Para ajustar el tamaño del rectángulo, podrás utilizar las teclas C y M:<br /><br /><br />Pulsando la tecla C, el rectángulo aumentará levemente de tamaño. <br /><br />Pulsando la tecla M, el rectángulo disminuirá levemente su tamaño. <br /><br /><br />Pulsa repetidas veces las teclas para ajustar el rectángulo hasta que <br> coincida con los laterales de la tarjeta de crédito/débito/DNI, <span style='color:red;'>siendo <br> visible el borde rojo del rectangulo</span>. <br><br> Cuando los laterales coincidan, pulsa la tecla P" x=0 y=-32 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para comenzar la tarea." x=0 y=240 z_index=0
+
+define feedback Exit
+	set reset_variables yes
+	set duration 0
+	set description "Proporciona feedback al participante"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Has terminado la parte del experimento en la que podías ganar puntos.<br /><br />Has ganado [points_counter] puntos en total.<br /><br />¡Felicidades!" x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar. " x=0 y=250 z_index=0
+
+define keyboard_response Exit_response
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses space
+
+define feedback Fedback_slow
+	set reset_variables yes
+	set duration 695
+	set description "Proporciona feedback al participante"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=40 html=yes show_if=always text="Demasiado lento <br><br> Por favor, trata de responder más rápido" x=0 y=0 z_index=0
+
+define feedback Fedback_slow_1
+	set reset_variables yes
+	set duration 695
+	set description "Proporciona feedback al participante"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=40 html=yes show_if=always text="Demasiado lento <br><br> Por favor, trata de responder más rápido" x=0 y=0 z_index=0
+
+define feedback Feedback
+	set reset_variables yes
+	set duration 695
+	set description "Proporciona feedback al participante"
+	draw textline center=1 color="[feedColor]" font_bold=no font_family=sans font_italic=no font_size=40 html=yes show_if=always text="[textf]" x=0 y=0 z_index=0
+	draw rect color="[feedColor]" fill=1 h=100 penwidth=2 show_if="[singleton] = High" w=400 x=-200 y=-175 z_index=0
+	draw textline center=1 color=black font_bold=no font_family=sans font_italic=no font_size=36 html=yes show_if="[singleton] = High" text="¡Puntos extra: x 10!" x=0 y=-125 z_index=0
+
+define feedback Feedback_nreward
+	set reset_variables yes
+	set duration 695
+	set description "Proporciona feedback al participante"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=40 html=yes show_if="[correct_keyboard_response]==1" text=Correcto x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=40 html=yes show_if="[correct_keyboard_response]==0" text=Incorrecto x=0 y=0 z_index=0
+
+define feedback Feedback_nreward_1
+	set reset_variables yes
+	set duration 695
+	set description "Proporciona feedback al participante"
+	draw textline center=1 color="[feedColor]" font_bold=no font_family=sans font_italic=no font_size=40 html=yes show_if="[correct_keyboard_response]==1" text=Correcto x=0 y=0 z_index=0
+	draw textline center=1 color="[feedColor]" font_bold=no font_family=sans font_italic=no font_size=40 html=yes show_if="[correct_keyboard_response]==0" text=Incorrecto x=0 y=0 z_index=0
+
+define inline_javascript Feedback_script
+	set description "Executes JavaScript code"
+	___run__
+	//Quitamos decimales
+	vars.response_time_keyboard_response = Math.round(vars.response_time_keyboard_response)
+	
+	//Determinamos los puntos:
+	vars.tie_diff = 1000 - Math.round(vars.response_time_keyboard_response) //calculamos los TR por debajo del umbral (1000 ms)
+	
+	//Por cada ms por debajo del umbral los puntos que es posible ganar son multiplicados por 0.1 o nada en función del color del singleton
+	if (vars.singleton == 'High' && vars.correct_keyboard_response == 1 && vars.response_time_keyboard_response <= 1000 && vars.Phase == 'Reward') {
+	    vars.points = vars.tie_diff
+	} else if (vars.singleton == 'Low' && vars.correct_keyboard_response == 1 && vars.response_time_keyboard_response <= 1000 && vars.Phase == 'Reward') {
+	    vars.points = 0.1*vars.tie_diff
+	} else if (vars.singleton == 'High' && vars.correct_keyboard_response == 0 && vars.response_time_keyboard_response <= 1000 && vars.Phase == 'Reward') {
+	    vars.points = vars.tie_diff
+	} else if (vars.singleton == 'Low' && vars.correct_keyboard_response == 0 && vars.response_time_keyboard_response <= 1000 && vars.Phase == 'Reward') {
+	    vars.points = 0.1*vars.tie_diff
+	} else {
+	    vars.points = 0
+	}
+	
+	if (vars.correct_keyboard_response == 1 && vars.response_time_keyboard_response <= 1000) {
+	    vars.points_counter += Math.round(vars.points)
+	} else if (vars.correct_keyboard_response == 0 && vars.response_time_keyboard_response <= 1000) {
+	    vars.points_counter -= Math.round(vars.points) 
+	} else {
+	    vars.points_counter = vars.points_counter
+	}
+	
+	vars.points_counter = Math.round(vars.points_counter)
+	
+	//El contador no puede bajar de 0 y vale 0 en la fase de no recompensa
+	if (vars.points_counter < 0 | vars.Phase == 'No_Reward') {
+	    vars.points_counter = 0;
+	}
+	
+	//Preparamos el texto en el feedback en la fase de recompensa
+	if (vars.correct_keyboard_response == 1 && vars.singleton != 'Absent') {
+	   vars.textf = '+ ' + Math.round(vars.points) + ' puntos';
+	} else if (vars.correct_keyboard_response ==0 && vars.singleton != 'Absent') {
+	    vars.textf = 'ERROR: ' + '- ' + Math.round(vars.points) + ' puntos';
+	} else if (vars.correct_keyboard_response == 1 && vars.singleton == 'Absent') {
+	    vars.textf = '+ 0 puntos';
+	} else {
+	    vars.textf = 'ERROR: ' + '- ' + Math.round(vars.points) + ' puntos';
+	}
+	
+	//Controlamos posibles anticipaciones
+	if (vars.response_time_keyboard_response < 200) {
+	    vars.anticipation = 1
+	} else {
+	    vars.anticipation = 0
+	}
+	
+	//Controlamos time outs
+	if (vars.response_time_keyboard_response > 2000) {
+	    vars.time_out = 1
+	} else {
+	    vars.time_out = 0
+	}
+	
+	// Feedback color
+	vars.feedColor = (correct_keyboard_response == 1) ? "#40E0D0" : "#8765c2"
+	__end__
+	set _prepare ""
+
+define loop Instruction_loop_3
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set description "Corre otro objeto de forma repetida"
+	set cycles 1
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 empty_column ""
+	run Instruction_sequence_3
+
+define loop Instruction_loop_4
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set description "Corre otro objeto de forma repetida"
+	set cycles 1
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 empty_column ""
+	run Instruction_sequence_4
+
+define sequence Instruction_sequence_3
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run init_practice always
+	run instruction1 always
+	run instruction1_key always
+	run instruction2_key always
+	run instruction1_key always
+	run instruction3 always
+	run instruction1_key always
+	run instruction4 always
+	run instruction1_key always
+	run wm_events always
+	run instruction1_key always
+	run Instructions5 always
+	run instruction1_key always
+	run instruction6 always
+	run Last_instructions1WM always
+	run repeat_cycle always
+
+define sequence Instruction_sequence_4
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run init_WM always
+	run preWM always
+	run Last_instructions2WM always
+
+define sketchpad Instructions5
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Mirando al punto de fijación en todo momento, trata de<br>recordar las orientaciones de todas las lineas de los 4 círculos. <br><br>Una vez que se te señale uno de los círculos, debes decidir si<br>la orientación ha cambiado o no. " x=0 y=-192 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="RECUERDA:<br><br>Pulsa la tecla C si la orientación cambia.<br><br>Pulsa la tecla M si la orientación es la misma." x=0 y=32 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar" x=0 y=288 z_index=0
+
+define sketchpad Interval
+	set duration 495
+	set description "Muestra estímulos"
+
+define keyboard_response Last_instructions1WM
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses "r;w"
+
+define keyboard_response Last_instructions2WM
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses w
+
+define sketchpad Phase_change
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="¡Lo has hecho muy bien!<br /><br />Vas a seguir con la tarea, pero, a partir de ahora <span style='color:red;'>ya no ganarás más puntos</span>. <br> Por tanto, <span style='color:red;'>el color en el que pueden aparecer algunos estímulos es completamente irrelevante</span>." x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Si has leido y comprendido esto, pulsa S para continuar con el experimento. " x=0 y=288 z_index=0
+
+define inline_javascript Random_color
+	set description "Executes JavaScript code"
+	set _run ""
+	___prepare__
+	//Randomise color
+	vars.color1 = random(0, 2) == 0? 'High': 'Low';
+	vars.color2 = vars.color1 == 'High'? 'Low': 'High';
+	
+	
+	function random(min, max, no){
+	    if (no  === 'undefined') {
+	        var rnum = Math.floor(Math.random()*(max-min)+min);
+	    } else {
+	        while(rnum === no){
+	           var rnum = Math.floor(Math.random()*(max-min)+min);
+	        }
+	    }
+	    return rnum;
+	}
+	__end__
+
+define inline_javascript Rescaling_counters_counterbalancing
+	set description "Executes JavaScript code"
+	set _run ""
+	___prepare__
+	// The code below will fetch the scaleMode from the 
+	// the Batch Properties in JATOS--or, if unavailable,
+	// use the defaultScaleMode set below--to override
+	// the OSWeb scaleMode parameter.
+	// The scale modes are:
+	//   noScale  -> no scaling.
+	//   showAll  -> scales (w/o stretching).
+	//   exactFit -> scales/stretches to fill screen fully.
+	vars.curScaleMode = "NOT BROWSER";
+	try {
+	    const defaultScaleMode = "noScale";
+	    if (typeof jatos != "undefined") {
+	        var batchParams = jatos.batchJsonInput || {};
+	    } else {
+	        var batchParams = {};
+	    }
+	    runner._scaleMode = batchParams.scaleMode || defaultScaleMode;
+	    vars.curScaleMode = runner._scaleMode;
+	    document.getElementById('osweb_div').setAttribute("style",`background:${vars.background};`);
+	    document.setAttribute("style",`background:${vars.background};`);
+	} catch (error) {
+	    console.log("Error caught:");
+	    console.error(error);
+	}
+	
+	
+	//Counterbalancing using batch session data:
+	function getCond(N) {
+	    const counter_Number = N; //Setting number of participants in each condition
+	    persistent.randomCond = random(0, jatos.batchSession.get("pending").length);
+	    let condition = jatos.batchSession.find("/pending/"+persistent.randomCond);
+	    vars.start_experiment = 1;
+	    if (typeof condition === 'undefined') {
+	        vars.start_experiment = 0;
+	    } else {
+	        vars.Condition = condition
+	        persistent.counterS = Number(jatos.batchSession.find("/counterS/"+vars.Condition)) + 1;
+	        jatos.batchSession.replace("/counterS/"+vars.Condition, persistent.counterS) //don't use  ";"
+	            .then(() => {console.log("Batch Session was successfully updated")
+	                                console.log("condition:" + vars.Condition)
+	            })
+	            .then(() => {if (persistent.counterS == counter_Number) jatos.batchSession.move("/pending/" + persistent.randomCond, "/finished/0")
+	                .then(() => console.log(vars.Condition + "has been removed from the pending list"))
+	                .catch(() => {console.log("Problem with move")
+	                                     setTimeout(() => getCondition(), 1)});
+	            })
+	            .catch(() => {console.log("Batch Session synchronization failed")
+	                                 SetTimeout(() => getCondition(), 1)
+	                                 getCondition()});
+	    }
+	}
+	
+	if(window.jatos){
+	    vars.ID = jatos.urlQueryParameters.ID || 'No URL'; //undefined is a falsy value, so this short-circuit evaluation asign the second
+	    
+	    console.log('Participant ID = '+vars.ID);
+	    getCond(60);
+	} else {
+	    vars.Condition = 'B';
+	    vars.start_experiment = 1;
+	    console.log('Experiment started from builder');
+	    vars.ID = 'Builder Run';
+	}
+	
+	//Para integrar con SONA Systems
+	// if (window.jatos && jatos.urlQueryParameters.SONA_ID) {
+	//     console.log('Sona information is available')
+	//     vars.sona_participant_id = jatos.urlQueryParameters.SONA_ID
+	// } else {
+	//     console.log('Sona information is not available (setting value to -1)')
+	//     vars.sona_participant_id = -1
+	// }
+	// console.log('sona_participant_id = ' + vars.sona_participant_id)
+	
+	// Creating a counterbalance list: 
+	vars.counterbalance = random(1, 7);
+	
+	persistent.colorArray;
+	if (vars.counterbalance == 1) {
+	    vars.high_color = 'orange'
+	    vars.low_color = 'blue'
+	    persistent.colorArray = ['pink', 'green', 'red', 'yellow']
+	} else if (vars.counterbalance == 2) {
+	    vars.high_color = 'green'
+	    vars.low_color = 'pink'
+	    persistent.colorArray = ['orange', 'blue',  'red', 'yellow']
+	} else if (vars.counterbalance == 3) {
+	    vars.high_color = 'blue'
+	    vars.low_color = 'orange'
+	    persistent.colorArray = ['pink', 'green',  'red', 'yellow']
+	} else if (vars.counterbalance == 4) {
+	    vars.high_color = 'pink'
+	    vars.low_color = 'green'
+	    persistent.colorArray = ['orange', 'blue',  'red', 'yellow']
+	} else if (vars.counterbalance == 5) {
+	    vars.high_color = 'red'
+	    vars.low_color = 'yellow'
+	    persistent.colorArray = ['orange', 'blue', 'pink', 'green']
+	} else {
+	    vars.high_color = 'yellow'
+	    vars.low_color = 'red'
+	    persistent.colorArray = ['orange', 'blue', 'pink', 'green']
+	}
+	
+	persistent.colorValueArray = [vars.high_color, vars.low_color];
+	
+	//Init
+	vars.trial_count = 0;
+	vars.points_counter = 0;
+	vars.end = 0;
+	vars.money = 6;
+	vars.show = 0;
+	persistent.colorPositions = [];
+	vars.awareness_count = 0;
+	vars.mean_pos = 0;
+	
+	function random(min, max, no){
+	    if (no  === 'undefined') {
+	        var rnum = Math.floor(Math.random()*(max-min)+min);
+	    } else {
+	        while(rnum === no){
+	           var rnum = Math.floor(Math.random()*(max-min)+min);
+	        }
+	    }
+	    return rnum;
+	}
+	__end__
+
+define sketchpad Rest
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Has terminado un bloque experimental.<br /><br />Descansa hasta que quieras empezar el siguiente." x=0 y=-160 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar con el experimento." x=0 y=256 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="RECUERDA:<br><br>[text1]<br><br>[text2]" x=0 y=32 z_index=0
+
+define keyboard_response Rest_response
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses space
+
+define inline_javascript Trial_counter
+	set description "Executes JavaScript code"
+	___run__
+	vars.trial_count += 1;
+	
+	persistent.colorArray;
+	if (vars.counterbalance == 1) {
+	    vars.high_color = 'orange'
+	    vars.low_color = 'blue'
+	    persistent.colorArray = ['pink', 'green', 'red', 'yellow']
+	} else if (vars.counterbalance == 2) {
+	    vars.high_color = 'green'
+	    vars.low_color = 'pink'
+	    persistent.colorArray = ['orange', 'blue',  'red', 'yellow']
+	} else if (vars.counterbalance == 3) {
+	    vars.high_color = 'blue'
+	    vars.low_color = 'orange'
+	    persistent.colorArray = ['pink', 'green',  'red', 'yellow']
+	} else if (vars.counterbalance == 4) {
+	    vars.high_color = 'pink'
+	    vars.low_color = 'green'
+	    persistent.colorArray = ['orange', 'blue',  'red', 'yellow']
+	} else if (vars.counterbalance == 5) {
+	    vars.high_color = 'red'
+	    vars.low_color = 'yellow'
+	    persistent.colorArray = ['orange', 'blue', 'pink', 'green']
+	} else {
+	    vars.high_color = 'yellow'
+	    vars.low_color = 'red'
+	    persistent.colorArray = ['orange', 'blue', 'pink', 'green']
+	}
+	console.log(persistent.colorArray)
+	persistent.colorValueArray = [vars.high_color, vars.low_color];
+	__end__
+	___prepare__
+	vars.jitter1 = random(395, 596);
+	vars.jitter2 = random(995, 1496);
+	
+	function random(min, max, no){
+	    if (no  === 'undefined') {
+	        var rnum = Math.floor(Math.random()*(max-min)+min);
+	    } else {
+	        while(rnum === no){
+	           var rnum = Math.floor(Math.random()*(max-min)+min);
+	        }
+	    }
+	    return rnum;
+	}
+	__end__
+
+define loop Trial_loop
+	set source_file ""
+	set source table
+	set repeat 2
+	set order random
+	set description "Corre otro objeto de forma repetida"
+	set cycles 12
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 singleton High
+	setcycle 0 practice Singleton
+	setcycle 1 singleton High
+	setcycle 1 practice Singleton
+	setcycle 2 singleton High
+	setcycle 2 practice Singleton
+	setcycle 3 singleton High
+	setcycle 3 practice Singleton
+	setcycle 4 singleton High
+	setcycle 4 practice Singleton
+	setcycle 5 singleton Low
+	setcycle 5 practice Singleton
+	setcycle 6 singleton Low
+	setcycle 6 practice Absent
+	setcycle 7 singleton Low
+	setcycle 7 practice Absent
+	setcycle 8 singleton Low
+	setcycle 8 practice Absent
+	setcycle 9 singleton Low
+	setcycle 9 practice Absent
+	setcycle 10 singleton Absent
+	setcycle 10 practice Absent
+	setcycle 11 singleton Absent
+	setcycle 11 practice Absent
+	run Trial_sequence
+
+define sequence Trial_sequence
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run reset_feedback always
+	run trial_count always
+	run inter_trial always
+	run fixation_inline always
+	run fixation always
+	run display always
+	run keyboard_response always
+	run Feedback_script always
+	run Feedback "[Phase] == Reward and [response_time_keyboard_response] <= 1995"
+	run Fedback_slow_1 "[response_time_keyboard_response] > 1995"
+	run Feedback_nreward_1 "[Phase] != Reward and [response_time_keyboard_response] <= 1995 "
+	run Interval always
+	run Exit "[trial_count] == 288"
+	run Exit_response "[trial_count] == 288"
+	run logger always
+	run rest_trial_count always
+
+define sequence VMAC
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run info always
+	run instruct_response_1 always
+	run instruct_loop always
+	run Block_loop always
+
+define sequence WM
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run Block_loop_2 always
+
+define sequence WM_Task
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run start "[Block] = 0"
+	run instruction1_key "[Block] = 0"
+	run rest_inst_WM always
+	run Instruction_loop_3 "[Block] = 0"
+	run Instruction_loop_4 "[Block] = 1"
+	run WM_loop always
+	run Rest "[Block] = 1 or [Block] = 2 or [Block] = 3 or [Block] = 4 or [Block] = 5 or [Block] = 6 or [Block] = 7 or [Block] = 8 or [Block] = 9 or [Block] = 10 or [Block] = 11 or [Block] = 12 or [Block] = 13 or [Block] = 14 "
+	run Rest_response "[Block] = 1 or [Block] = 2 or [Block] = 3 or [Block] = 4 or [Block] = 5 or [Block] = 6 or [Block] = 7 or [Block] = 8 or [Block] = 9 or [Block] = 10 or [Block] = 11 or [Block] = 12 or [Block] = 13 or [Block] = 14 "
+
+define loop WM_loop
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set description "Corre otro objeto de forma repetida"
+	set cycles 20
+	set continuous no
+	set break_if_on_first yes
+	set break_if "[Phase] = Practice and [trial_count] = 20"
+	setcycle 0 singleton High
+	setcycle 0 Orientation Same
+	setcycle 0 Trial_type Target
+	setcycle 1 singleton Low
+	setcycle 1 Orientation Same
+	setcycle 1 Trial_type Target
+	setcycle 2 singleton High
+	setcycle 2 Orientation Different
+	setcycle 2 Trial_type Target
+	setcycle 3 singleton Low
+	setcycle 3 Orientation Different
+	setcycle 3 Trial_type Target
+	setcycle 4 singleton High
+	setcycle 4 Orientation Same
+	setcycle 4 Trial_type Distractor
+	setcycle 5 singleton Low
+	setcycle 5 Orientation Same
+	setcycle 5 Trial_type Distractor
+	setcycle 6 singleton High
+	setcycle 6 Orientation Different
+	setcycle 6 Trial_type Distractor
+	setcycle 7 singleton Low
+	setcycle 7 Orientation Different
+	setcycle 7 Trial_type Distractor
+	setcycle 8 singleton None
+	setcycle 8 Orientation Same
+	setcycle 8 Trial_type None
+	setcycle 9 singleton None
+	setcycle 9 Orientation Different
+	setcycle 9 Trial_type None
+	setcycle 10 singleton High
+	setcycle 10 Orientation Same
+	setcycle 10 Trial_type Distractor
+	setcycle 11 singleton Low
+	setcycle 11 Orientation Same
+	setcycle 11 Trial_type Distractor
+	setcycle 12 singleton High
+	setcycle 12 Orientation Different
+	setcycle 12 Trial_type Distractor
+	setcycle 13 singleton Low
+	setcycle 13 Orientation Different
+	setcycle 13 Trial_type Distractor
+	setcycle 14 singleton High
+	setcycle 14 Orientation Same
+	setcycle 14 Trial_type Distractor
+	setcycle 15 singleton Low
+	setcycle 15 Orientation Same
+	setcycle 15 Trial_type Distractor
+	setcycle 16 singleton High
+	setcycle 16 Orientation Different
+	setcycle 16 Trial_type Distractor
+	setcycle 17 singleton Low
+	setcycle 17 Orientation Different
+	setcycle 17 Trial_type Distractor
+	setcycle 18 singleton None
+	setcycle 18 Orientation Same
+	setcycle 18 Trial_type None
+	setcycle 19 singleton None
+	setcycle 19 Orientation Different
+	setcycle 19 Trial_type None
+	run sequence
+
+define feedback alredy_finished
+	set reset_variables yes
+	set duration keypress
+	set description "Proporciona feedback al participante"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="¡El experimento está cerrado!" x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="<span style='font-size: 20px;'>Si necesitas información, contacta con el investigador responsable de este estudio.</span>" x=0 y=224 z_index=0
+
+define keyboard_response awareness_Resp
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses "1;2;3;4;5;6;7;8;9;0;enter;backspace"
+
+define inline_javascript awareness_question
+	set description "Executes JavaScript code"
+	set _run "persistent.awareness.show();"
+	___prepare__
+	persistent.awareness = draw_question()
+	function draw_question() {
+	    let color;
+	    if (vars.Awareness_color == "High"){
+	        color = vars.high_color;
+	    } else {
+	        color = vars.low_color
+	    }
+	    var awareness = Canvas() //creamos el canvas
+	    awareness.text({text: 'Por favor, indica utilizando los números del teclado qué cantidad de puntos', x: 0, y: -250, font_size: 24, font_family: 'sans'})
+	    awareness.text({text: 'crees haber ganado del total (' +vars.points_counter + ') cada vez que has visto este estímulo en pantalla:', x: 0, y: -210, font_size: 24, font_family: 'sans'})
+	awareness.circle({x:0, y:0, r: 100, fill: false, color:color, penwidth:4})
+	    awareness.text({text:'puntos: ' + vars.awareness_text, x: 0, y: 200, font_size: 24, font_family: 'sans'})
+	    awareness.text({text: 'Pulsa enter para seguir.', x: 0, y: 300, font_size: 24, font_family: 'sans'})
+	   return awareness
+	}
+	__end__
+
+define inline_javascript blind_inline
+	set description "Executes JavaScript code"
+	___run__
+	if (vars.response_blind_response != 'w') {
+	    vars.xb += 1
+	} else {
+	    var x = vars.xb
+	    vars.totalxb +=  x
+	    vars.meanxb = vars.totalxb/vars.Trials
+	    vars.xb = x - 100
+	    vars.circledistance = (vars.meanxb)/vars.pxdensity //Le restamos el radio del círculo y pasamos a mm
+	    vars.screendistance = vars.circledistance/Math.tan(13.5*(Math.PI/180))
+	}
+	
+	if (vars.xb > 700) {
+	    vars.xb = 300
+	}
+	vars.fixpx = ((Math.tan(0.5*(Math.PI/180))*vars.screendistance)*vars.pxdensity)/2
+	vars.circleradpx = ((Math.tan(2.3*(Math.PI/180))*vars.screendistance)*vars.pxdensity)/2 //Multiplicando por pxdensity pasamos a píxeles y dividimos entre 2 (dado que para dibujar la linea usamos las mismas coordenadas en positivo y negativo)
+	vars.eccenpx = ((Math.tan(10.1*(Math.PI/180))*vars.screendistance)*vars.pxdensity)/2 //Diameter to radius
+	vars.linelenpx = ((Math.tan(1.4*(Math.PI/180))*vars.screendistance)*vars.pxdensity)/2
+	vars.fixwidthpx = ((Math.tan(0.1*(Math.PI/180))*vars.screendistance)*vars.pxdensity)
+	vars.linewidthpx = ((Math.tan(0.16*(Math.PI/180))*vars.screendistance)*vars.pxdensity)
+	//vars.lineprobelenpx = ((Math.tan(2*(Math.PI/180))*vars.screendistance)*vars.pxdensity)
+	
+	vars.screendistancecm = roundToTwo(vars.screendistance/10)
+	vars.circlecm = roundToTwo((Math.tan(2.3*(Math.PI/180))*vars.screendistance)/10)
+	vars.eccencm = roundToTwo((Math.tan(10.1*(Math.PI/180))*vars.screendistance)/10)
+	
+	function roundToTwo(num) {  //Redondear a 2 decimales  
+	    return +(Math.round(num + "e+2")  + "e-2"); //Using + in the left we convert string to number
+	}
+	__end__
+	set _prepare ""
+
+define keyboard_response blind_ins
+	set timeout 95
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses space
+
+define keyboard_response blind_ins_1
+	set timeout 95
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses space
+
+define sketchpad blind_instructions1
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Ahora que ya hemos estimado a cuanto equivale cada píxel en tu monitor, <br> vamos a pasar a comprabar la distancia a la que te encuentras de él.<br /><br />A partir de ahora, trata de mantener aproximadamente la misma distancia a la <br> pantalla a lo largo del experimento. " x=0 y=4 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar." x=0 y=240 z_index=0
+
+define sketchpad blind_instructions2
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Durante la tarea verás una cruz de fijación y un círculo rojo. <br> Este último se moverá lentamente hacia la izquierda:" x=0 y=-238 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=0 x2=0 y1=-10 y2=10 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-10 x2=10 y1=0 y2=0 z_index=0
+	draw circle color=red fill=1 penwidth=1 r=30 show_if=always x="-[xbins]" y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Mientras te <span style='color:red;'>tapas el ojo derecho</span>, debes <span style='color:red;'>mirar a la cruz <br> de fijación</span> y <span style='color:red;'>atender desde la periferia al círculo rojo</span>." x=0 y=160 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar." x=0 y=240 z_index=0
+
+define sketchpad blind_instructions2_1
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Cuando percibas que el círculo rojo desaparece, debes pulsar la tecla W. " x=0 y=-288 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=0 x2=0 y1=-10 y2=10 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-10 x2=10 y1=0 y2=0 z_index=0
+	draw circle color=red fill=1 penwidth=1 r=30 show_if=always x="-[xbins]" y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar." x=0 y=240 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Sin embargo, en ocasiones podrás tener la sensación de que el círculo se desvanece <br> transitoriamente. Para asegurarse de que dejes de percibir completamente el círculo, <br> intenta <span style='color:red;'>pulsar la tecla W después de que percibas que ha desaparecido durante unos <br> 2 o 3 segundos</span>." x=0 y=-160 z_index=0
+
+define repeat_cycle blind_repeat
+	set description "Optionally repeat a cycle from a loop"
+	set condition "[response_blind_response] != w"
+
+define keyboard_response blind_response
+	set timeout 95
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses w
+
+define loop blind_spot
+	set source_file ""
+	set source table
+	set repeat 1
+	set order sequential
+	set description "Corre otro objeto de forma repetida"
+	set cycles 5
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 Trials 1
+	setcycle 1 Trials 2
+	setcycle 2 Trials 3
+	setcycle 3 Trials 4
+	setcycle 4 Trials 5
+	run blind_spot_sequence
+
+define sequence blind_spot_sequence
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run post_1trial "[Trials] > 1 and [Trials] < 3"
+	run post2_trial "[Trials] >= 3"
+	run post "[Trials] > 1"
+	run trial_loop_blind always
+	run VMAC "[Trials] = 5"
+	run Awareness_1 "[Trials] = 5 and [Condition] = A"
+	run WM "[Trials] = 5"
+	run Awareness_2 "[Trials] = 5"
+
+define sequence calibration_sequence
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run instructions always
+	run keyboard_ins_1 always
+	run Card_instructions1 always
+	run keyboard_ins_1 always
+	run Card_instructions2 always
+	run keyboard_ins_1 always
+	run card_size always
+	run blind_instructions1 always
+	run keyboard_ins_1 always
+	run instruction_loop always
+	run instruction_loop_1 always
+	run pre_blind always
+	run pre_blind_key always
+	run blind_spot always
+
+define keyboard_response card
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses "c;m;p"
+
+define loop card_size
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set description "Corre otro objeto de forma repetida"
+	set cycles 1
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 empty_column ""
+	run card_size_seq
+
+define inline_javascript card_size_inline
+	set description "Executes JavaScript code"
+	___run__
+	var proportion = 53.98/85.6
+	if (vars.response_card == "c") {
+	    vars.w += 1
+	    vars.w5 += 1
+	    vars.h += 1*proportion
+	    vars.h5 += 1*proportion
+	    vars.y = -vars.h/2
+	    vars.x = vars.w/2
+	    vars.y5 = -vars.h5/2
+	    vars.x5 = vars.w5/2
+	} else if (vars.response_card == "m") {
+	     vars.w -= 1
+	    vars.w5 -= 1
+	    vars.h -= 1*proportion
+	    vars.h5 -= 1*proportion
+	    vars.y = -vars.h/2
+	    vars.x = vars.w/2
+	    vars.y5 = -vars.h5/2
+	    vars.x5 = vars.w5/2
+	}
+	
+	vars.pxdensity = vars.w/85.6
+	__end__
+	set _prepare ""
+
+define sequence card_size_seq
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run stimuli always
+	run card always
+	run card_size_inline always
+	run repeat_cicle_card always
+
+define keyboard_response change_r
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses s
+
+define sketchpad circle
+	set duration 0
+	set description "Muestra estímulos"
+	draw line color=white penwidth=4 show_if=always x1=0 x2=0 y1=-10 y2=10 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-10 x2=10 y1=0 y2=0 z_index=0
+	draw circle color=red fill=1 penwidth=1 r=30 show_if=always x="-[xb]" y=0 z_index=0
+
+define inline_javascript correct_inline
+	set description "Executes JavaScript code"
+	___run__
+	vars.mean_pos +=1;
+	if (vars.response_keyboard_response === 'c' && vars.Orientation === 'Different') {
+	    vars.correct_keyboard_response = 1;
+	} else  if (vars.response_keyboard_response === 'm' && vars.Orientation === 'Same'){
+	    vars.correct_keyboard_response = 1;
+	} else {
+	    vars.correct_keyboard_response = 0;
+	}
+	persistent.correctMean  = [];
+	persistent.correctMean[Number(vars.mean_pos)-1] = Number(vars.correct_keyboard_response);
+	let mean = 0;
+	
+	for (let i = 0; i<persistent.correctMean.length; i++){
+	    mean += persistent.correctMean[i];
+	
+	}
+	
+	 mean = mean/persistent.correctMean.length;
+	console.log(`mean accuracy is: ${mean}`);
+	
+	vars.target_color = persistent.actualColorArray[Number(vars.target_pos)];
+	__end__
+	___prepare__
+	//Controlamos posibles anticipaciones
+	if (vars.response_time_keyboard_response < 200) {
+	    vars.anticipation = 1
+	} else {
+	    vars.anticipation = 0
+	}
+	
+	//Controlamos time outs
+	if (vars.response_time_keyboard_response > 3000) {
+	    vars.time_out = 1
+	} else {
+	    vars.time_out = 0
+	}
+	__end__
+
+define inline_javascript display
+	set description "Executes JavaScript code"
+	___run__
+	//Mostramos el display en pantalla
+	persistent.c.show()
+	__end__
+	___prepare__
+	//estimulos:
+	persistent.c = draw_display()
+	
+	function draw_display() {
+	    var pos = 0 //Posición de cada estímulo en el display
+	    if (vars.singleton == 'High' | vars.singleton == 'Low') { //Sí el singleton es high o low:
+	        vars.target_pos = randomPos(1, 7)
+	        vars.singleton_pos = randomPos(1, 7, vars.target_pos) // y el singleton
+	    } else { //Si el singleton no está presente
+	        vars.target_pos = randomPos(1, 7)
+	        vars.singleton_pos = 0 //Solo se asignan posiciones al target
+	        }
+	    var c = Canvas() //creamos el canvas
+	    c.line({sx:0, sy:vars.fixpx, ex:0, ey:-vars.fixpx, color:'white', penwidth: vars.fixwidthpx}); //Fixation point
+	    c.line({sx:vars.fixpx, sy:0, ex:-vars.fixpx, ey:0, color:'white', penwidth: vars.fixwidthpx});
+	    var xy = xy_circle(6, Number(vars.eccenpx), 30, [0, 0]) //Usar Number() para evitar error con xy_circle
+	    for (var i in xy) {
+	        pos = pos +1 //Se empiezan a definir posiciones al entrar al bucle
+	        var x = xy[i][0]//Asignamos coordenadas x e y
+	        var y = xy[i][1]
+	        if (pos == vars.target_pos) { //Dibujamos estímulos en función de la posición asignada
+	            estim(c, 'target', 'n', vars.circleradpx, x, y, vars.linewidthpx)
+	        } else if (pos == vars.singleton_pos && vars.singleton == 'High' && vars.Phase != 'Practice') {
+	            estim(c, 'singleton', 'h', vars.circleradpx, x, y, vars.linewidthpx)
+	        } else if (pos == vars.singleton_pos && vars.singleton == 'Low'&& vars.Phase != 'Practice') {
+	            estim(c, 'singleton', 'l', vars.circleradpx, x, y, vars.linewidthpx)
+	        } else if (pos == vars.singleton_pos && vars.practice == 'Singleton' && vars.Phase == 'Practice') {
+	            estim(c, 'distractor', 'n', vars.circleradpx, x, y, vars.linewidthpx)
+	        } else {
+	            estim(c, 'distractor', 'n', vars.circleradpx, x, y, vars.linewidthpx)
+	        }
+	    }
+	    return c
+	}
+	
+	//Función para dibujar todos los tipos de estímulos
+	function estim(obj, type, condition, size, x, y, pwidth) {//parametros de los estímulos. obj representa el objeto canvas (c en este caso)
+	    var random = randomPos(1, 3)
+	    if (type =='target') {
+	        if (random == 1) {
+	            var n1 = [x, y+size]
+	            var n2 = [x+size, y]
+	            var n3 = [x, y-size]
+	            var n4 = [x-size, y]
+	            obj.polygon({vertices: [n1, n2, n3, n4], penwidth: pwidth, color: 'grey'})
+	            obj.line({sx:x, ex:x, sy:y-size/2, ey:y+size/2, penwidth:pwidth, color:'white'}) //Linea vertical
+	            vars.target = 'vertical'
+	        } else {
+	            var n1 = [x, y+size]
+	            var n2 = [x+size, y]
+	            var n3 = [x, y-size]
+	            var n4 = [x-size, y]
+	            obj.polygon({vertices: [n1, n2, n3, n4], penwidth: pwidth, color: 'grey'})
+	            obj.line({sx:x-size/2, ex:x+size/2, sy:y, ey:y, penwidth:pwidth, color:'white'}) //Linea Horizontal
+	            vars.target = 'horizontal'
+	        }
+	        return estim
+	    } else if (type == 'distractor') {
+	        if(random == 1) {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:'grey', penwidth:pwidth}) //Dibujamos circulo
+	            var xy1 = xy_from_polar(size/2, 45)
+	            var x1 = xy1[0]
+	            var y1 = xy1[1]
+	            obj.line({sx:x+ x1, sy:y+ y1, ex:x -x1, ey:y -y1, penwidth:pwidth, color:'white'})
+	        } else {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:'grey', penwidth:pwidth}) //Dibujamos circulo
+	            var xy2 = xy_from_polar(size/2, -45)
+	            var x2 = xy2[0]
+	            var y2 = xy2[1]
+	            obj.line({sx:x+x2, ex:x-x2, sy:y+y2, ey:y-y2, penwidth:pwidth, color:'white'})
+	        } 
+	    } else if (type =='singleton'){
+	        if(condition == 'h') {
+	            if (random == 1) {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:vars.high_color, penwidth:pwidth}) 
+	            var xy1 = xy_from_polar(size/2, 45)
+	            var x1 = xy1[0]
+	            var y1 = xy1[1]
+	            obj.line({sx:x+ x1, sy:y+ y1, ex:x -x1, ey:y -y1, penwidth:pwidth, color:'white'})
+	            } else {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:vars.high_color, penwidth:pwidth})
+	            var xy2 = xy_from_polar(size/2, -45)
+	            var x2 = xy2[0]
+	            var y2 = xy2[1]
+	            obj.line({sx:x+ x2, sy:y+ y2, ex:x -x2, ey:y -y2, penwidth:pwidth, color:'white'})
+	            }
+	        } else if (condition == 'l') {
+	            if (random == 1) {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:vars.low_color, penwidth:pwidth})
+	            var xy1 = xy_from_polar(size/2, 45)
+	            var x1 = xy1[0]
+	            var y1 = xy1[1]
+	            obj.line({sx:x+ x1, sy:y+ y1, ex:x -x1, ey:y -y1, penwidth:pwidth, color:'white'})
+	            } else {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:vars.low_color, penwidth:pwidth})
+	            var xy2 = xy_from_polar(size/2, -45)
+	            var x2 = xy2[0]
+	            var y2 = xy2[1]
+	            obj.line({sx:x+ x2, sy:y+ y2, ex:x -x2, ey:y -y2, penwidth:pwidth, color:'white'})
+	            }
+	        } else {
+	            if (random == 1) {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:'purple', penwidth:pwidth})
+	            var xy1 = xy_from_polar(size/2, 45)
+	            var x1 = xy1[0]
+	            var y1 = xy1[1]
+	            obj.line({sx:x+ x1, sy:y+ y1, ex:x -x1, ey:y -y1, penwidth:pwidth, color:'white'})
+	            } else {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:'purple', penwidth:pwidth})
+	            var xy2 = xy_from_polar(size/2, -45)
+	            var x2 = xy2[0]
+	            var y2 = xy2[1]
+	            obj.line({sx:x+ x2, sy:y+ y2, ex:x -x2, ey:y -y2, penwidth:pwidth, color:'white'})
+	            }
+	        }
+	    }
+	}
+	
+	//Función parar rotar puntos en coordenadas cartesianas. 
+	//function rotation(coord, x, y, radians){
+	//    if (coord == 'x') {
+	//        var x1 = x*Math.cos(radians)+y*Math.sin(radians)
+	//        return x1
+	//    } else {
+	//        var y1 = x*Math.sin(radians)-y*Math.cos(radians)
+	//        return y1
+	//    }
+	//}
+	
+	//Para aleatorizar (las posiciones de los estímulos en el display y la orientación de las lineas)
+	function randomPos(min, max, no) {
+	    no = (typeof no !== 'undefined') ?  no : 0
+	    var rnum = Math.floor(Math.random() * (max - min)) + min;
+	    while (rnum == no) {
+	    rnum = Math.floor(Math.random() * (max - min)) + min;
+	    }
+	  return rnum;
+	}
+	
+	//Definimos la respuesta correcta
+	if (vars.target == 'vertical') {
+	    vars.correct_response = 'j';
+	} else {
+	    vars.correct_response = 'b';
+	} 
+	
+	vars.response = 'b;j';
+	vars.display_time = 1995;
+	__end__
+
+define keyboard_response display_key
+	set timeout 495
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses "#"
+
+define sketchpad end
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="¡Ya has terminado el experimento!" x=0 y=-224 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Apunta tu código de participante: [ID]" x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa enter para salir" x=0 y=256 z_index=0
+
+define inline_javascript end_counterbalance
+	set description "Executes JavaScript code"
+	___run__
+	//Counting ended counterbalancings
+	function finishCond() {
+	    persistent.counterF = Number(jatos.batchSession.find("/counterF/"+vars.Condition)) + 1;
+	    jatos.batchSession.replace("/counterF/"+vars.Condition, persistent.counterF) //Don't use' ";"
+	        .then(() => console.log("Batch Session was successfully updated"))
+	        // .then(() => {if (persistent.counterF == 2) jatos.batchSession.move("/pending/" + persistent.randomCond, "/finished/0")
+	        //     .then(() => console.log("Done"))
+	        //     .catch(() => {console.log("Problem with move")
+	        //                          setTimeout(() => finishCond(), 1)});
+	        // })
+	        .catch(() => {console.log("Batch Session synchronization failed")
+	                             finshCond()});
+	}
+	
+	if(window.jatos){
+	    finishCond();
+	}
+	__end__
+	set _prepare ""
+
+define keyboard_response end_resp
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses enter
+
+define sequence experiment
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run Rescaling_counters_counterbalancing always
+	run welcome "[start_experiment] = 1"
+	run alredy_finished "[start_experiment] = 0"
+	run Calibration "[start_experiment] = 1"
+	run farewell "[start_experiment] = 1"
+
+define sequence farewell
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run end_counterbalance always
+	run end always
+	run end_resp always
+
+define keyboard_response fixation
+	set timeout "[jitter1]"
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses "#"
+
+define inline_javascript fixation_inline
+	set description "Executes JavaScript code"
+	___run__
+	persistent.f.show();
+	__end__
+	___prepare__
+	persistent.f = draw_fix();
+	
+	function draw_fix(){
+	    var f = Canvas();
+	    f.line({sx:0, sy:vars.fixpx, ex:0, ey:-vars.fixpx, color:'white', penwidth: vars.fixwidthpx}); //Fixation point
+	    f.line({sx:vars.fixpx, sy:0, ex:-vars.fixpx, ey:0, color:'white', penwidth: vars.fixwidthpx});
+	    return f;
+	}
+	__end__
+
+define feedback info
+	set reset_variables yes
+	set duration 0
+	set description "Proporciona feedback al participante"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Ya hemos acabado con la primera fase del experimento.<br />" x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar con la siguiente fase." x=0 y=192 z_index=0
+
+define inline_javascript init
+	set description "Executes JavaScript code"
+	set _run ""
+	___prepare__
+	//Variables para la calibración
+	var proportion = 53.98/85.6
+	vars.w = 350
+	vars.h = 350*proportion
+	vars.w5 = 355
+	vars.h5 = 355*proportion
+	vars.x = vars.w/2
+	vars.y = -vars.h/2
+	vars.y5 = -vars.h5/2
+	vars.x5 = vars.w5/2
+	vars.xb = 300
+	vars.xbins = 300
+	vars.totalxb = 0
+	vars.meanxb = 0
+	vars.distancephys = ""
+	vars.text = 'Indica cuanto mide la linea (en mm): '
+	vars.linephys = ""
+	vars.screendistance = NaN
+	vars.screendistancecm = NaN
+	vars.circlecm = NaN
+	vars.eccencm = NaN
+	__end__
+
+define inline_javascript init_Text
+	set description "Executes JavaScript code"
+	set _run ""
+	___prepare__
+	vars.awareness_count += 1;
+	vars.awareness_text = '';
+	__end__
+
+define inline_javascript init_WM
+	set description "Executes JavaScript code"
+	set _run "vars.trial_count = 0"
+	set _prepare ""
+
+define inline_javascript init_practice
+	set description "Executes JavaScript code"
+	set _run "vars.trial_count = 0"
+	set _prepare ""
+
+define inline_javascript instruct
+	set description "Executes JavaScript code"
+	___run__
+	//Mostramos el display en pantalla
+	persistent.instruct.show()
+	__end__
+	___prepare__
+	//estimulos:
+	persistent.instruct = draw_instructions()
+	
+	function draw_instructions() {
+	    var pos = 0 //Posición de cada estímulo en el display
+	    vars.target_pos = 6
+	    var instruct = Canvas() //creamos el canvas
+	    instruct.text({text: 'Estás a punto de realizar una tarea de búsqueda visual. ', x: 0, y: -250, font_size: 24, font_family: 'sans', html:true})
+	    instruct.text({text: 'En esta tarea te presentaremos una configuración similar a esta a lo largo del experimento:', x: 0, y: -220, font_size: 24, font_family: 'sans', html:true})
+	    instruct.text({text: 'Pulsa la barra espaciadora para seguir.', x: 0, y: 300, font_size: 24, font_family: 'sans'})
+	    instruct.line({sx:0, sy:35, ex:0, ey:15, color:'white', penwidth: 4}) //Dibujamos el punto de fijación
+	    instruct.line({sx:10, sy:25, ex:-10, ey:25, color:'white', penwidth: 4})
+	    var xy = xy_circle(6, 150, 30, [0, 35]);
+	    for (var i in xy) {
+	        pos = pos +1 //Se empiezan a definir posiciones al entrar al bucle
+	        var x = xy[i][0]//Asignamos coordenadas x e y
+	        var y = xy[i][1]
+	        if (pos == vars.target_pos) { //Dibujamos estímulos en función de la posición asignada
+	            estim(instruct, 'target', 'n', 40, x, y, 7)
+	        } else {
+	            estim(instruct, 'distractor', 'n', 40, x, y, 7)
+	        }
+	    }
+	    return instruct
+	}
+	
+	//Función para dibujar todos los tipos de estímulos
+	function estim(obj, type, condition, size, x, y, pwidth) {//parametros de los estímulos. obj representa el objeto canvas (c en este caso)
+	    var random = randomPos(1, 3)
+	    if (type =='target') {
+	        if (random == 1) {
+	            var n1 = [x, y+size]
+	            var n2 = [x+size, y]
+	            var n3 = [x, y-size]
+	            var n4 = [x-size, y]
+	            obj.polygon({vertices: [n1, n2, n3, n4], penwidth: pwidth, color: 'grey'})
+	            obj.line({sx:x, ex:x, sy:y-size/2, ey:y+size/2, penwidth:pwidth, color:'white'}) //Linea vertical
+	            vars.target = 'vertical'
+	        } else {
+	            var n1 = [x, y+size]
+	            var n2 = [x+size, y]
+	            var n3 = [x, y-size]
+	            var n4 = [x-size, y]
+	            obj.polygon({vertices: [n1, n2, n3, n4], penwidth: pwidth, color: 'grey'})
+	            obj.line({sx:x-size/2, ex:x+size/2, sy:y, ey:y, penwidth:pwidth, color:'white'}) //Linea Horizontal
+	            vars.target = 'horizontal'
+	        }
+	        return estim
+	    } else if (type == 'distractor') {
+	        if(random == 1) {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:'grey', penwidth:pwidth}) //Dibujamos circulo
+	            var xy1 = xy_from_polar(size/2, 45)
+	            var x1 = xy1[0]
+	            var y1 = xy1[1]
+	            obj.line({sx:x+ x1, sy:y+ y1, ex:x -x1, ey:y -y1, penwidth:pwidth, color:'white'})
+	        } else {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:'grey', penwidth:pwidth}) //Dibujamos circulo
+	            var xy2 = xy_from_polar(size/2, -45)
+	            var x2 = xy2[0]
+	            var y2 = xy2[1]
+	            obj.line({sx:x+x2, ex:x-x2, sy:y+y2, ey:y-y2, penwidth:pwidth, color:'white'})
+	        } 
+	    } else if (type =='singleton'){
+	        if(condition == 'h') {
+	            if (random == 1) {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:vars.high_color, penwidth:pwidth}) 
+	            var xy1 = xy_from_polar(size/2, 45)
+	            var x1 = xy1[0]
+	            var y1 = xy1[1]
+	            obj.line({sx:x+ x1, sy:y+ y1, ex:x -x1, ey:y -y1, penwidth:pwidth, color:'white'})
+	            } else {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:vars.high_color, penwidth:pwidth})
+	            var xy2 = xy_from_polar(size/2, -45)
+	            var x2 = xy2[0]
+	            var y2 = xy2[1]
+	            obj.line({sx:x+ x2, sy:y+ y2, ex:x -x2, ey:y -y2, penwidth:pwidth, color:'white'})
+	            }
+	        } else {
+	            if (random == 1) {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:vars.low_color, penwidth:pwidth})
+	            var xy1 = xy_from_polar(size/2, 45)
+	            var x1 = xy1[0]
+	            var y1 = xy1[1]
+	            obj.line({sx:x+ x1, sy:y+ y1, ex:x -x1, ey:y -y1, penwidth:pwidth, color:'white'})
+	            } else {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:vars.low_color, penwidth:pwidth})
+	            var xy2 = xy_from_polar(size/2, -45)
+	            var x2 = xy2[0]
+	            var y2 = xy2[1]
+	            obj.line({sx:x+ x2, sy:y+ y2, ex:x -x2, ey:y -y2, penwidth:pwidth, color:'white'})
+	            }
+	        }
+	    }
+	}
+	
+	
+	//Para aleatorizar (las posiciones de los estímulos en el display y la orientación de las lineas)
+	function randomPos(min, max, no) {
+	    no = (typeof no !== 'undefined') ?  no : 0
+	    var rnum = Math.floor(Math.random() * (max - min)) + min;
+	    while (rnum == no) {
+	    rnum = Math.floor(Math.random() * (max - min)) + min;
+	    }
+	  return rnum;
+	}
+	__end__
+
+define inline_javascript instruct2
+	set description "Executes JavaScript code"
+	___run__
+	//Mostramos el display en pantalla
+	persistent.instruct2.show()
+	__end__
+	___prepare__
+	//estimulos:
+	persistent.instruct2 = draw_instructions2()
+	
+	function draw_instructions2() {
+	    var pos = 0 //Posición de cada estímulo en el display
+	    vars.target_pos = 6
+	    var instruct = Canvas() //creamos el canvas
+	    instruct.text({text: 'Te encontrarás con diferentes estímulos con dos formas posibles: Diamantes o Círculos.', x: 0, y: -250, font_size: 24, font_family: 'sans'})
+	    instruct.text({text: 'Tu tarea consiste en responder a la orientación de la línea dentro del diamante mientras', x: 0, y: -220, font_size: 24, font_family: 'sans'})
+	    instruct.text({text: 'tratas de ignorar las otras formas:', x: 0, y: -190, font_size: 24, font_family: 'sans'})
+	    instruct.text({text: 'Pulsa la barra espaciadora para seguir.', x: 0, y: 300, font_size: 24, font_family: 'sans'})
+	    instruct.arrow({sx: 220, sy: -120, ex: 170, ey: -70, w: 10, h: 10, head_width:15, body_length:0.6, fill: true})
+	    instruct.line({sx:0, sy:45, ex:0, ey:25, color:'white', penwidth: 4}) //Dibujamos el punto de fijación
+	    instruct.line({sx:10, sy:35, ex:-10, ey:35, color:'white', penwidth: 4})
+	    var xy = xy_circle(6, 150, 30, [0, 35])
+	    for (var i in xy) {
+	        pos = pos +1 //Se empiezan a definir posiciones al entrar al bucle
+	        var x = xy[i][0]//Asignamos coordenadas x e y
+	        var y = xy[i][1]
+	        if (pos == vars.target_pos) { //Dibujamos estímulos en función de la posición asignada
+	            estim(instruct, 'target', 'n', 40, x, y, 7)
+	        } else {
+	            estim(instruct, 'distractor', 'n', 40, x, y, 7)
+	        }
+	    }
+	    return instruct
+	}
+	
+	//Función para dibujar todos los tipos de estímulos
+	function estim(obj, type, condition, size, x, y, pwidth) {//parametros de los estímulos. obj representa el objeto canvas (c en este caso)
+	    var random = randomPos(1, 3)
+	    if (type =='target') {
+	        if (random == 1) {
+	            var n1 = [x, y+size]
+	            var n2 = [x+size, y]
+	            var n3 = [x, y-size]
+	            var n4 = [x-size, y]
+	            obj.polygon({vertices: [n1, n2, n3, n4], penwidth: pwidth, color: 'grey'})
+	            obj.line({sx:x, ex:x, sy:y-size/2, ey:y+size/2, penwidth:pwidth, color:'white'}) //Linea vertical
+	            vars.target = 'vertical'
+	        } else {
+	            var n1 = [x, y+size]
+	            var n2 = [x+size, y]
+	            var n3 = [x, y-size]
+	            var n4 = [x-size, y]
+	            obj.polygon({vertices: [n1, n2, n3, n4], penwidth: pwidth, color: 'grey'})
+	            obj.line({sx:x-size/2, ex:x+size/2, sy:y, ey:y, penwidth:pwidth, color:'white'}) //Linea Horizontal
+	            vars.target = 'horizontal'
+	        }
+	        return estim
+	    } else if (type == 'distractor') {
+	        if(random == 1) {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:'grey', penwidth:pwidth}) //Dibujamos circulo
+	            var xy1 = xy_from_polar(size/2, 45)
+	            var x1 = xy1[0]
+	            var y1 = xy1[1]
+	            obj.line({sx:x+ x1, sy:y+ y1, ex:x -x1, ey:y -y1, penwidth:pwidth, color:'white'})
+	        } else {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:'grey', penwidth:pwidth}) //Dibujamos circulo
+	            var xy2 = xy_from_polar(size/2, -45)
+	            var x2 = xy2[0]
+	            var y2 = xy2[1]
+	            obj.line({sx:x+x2, ex:x-x2, sy:y+y2, ey:y-y2, penwidth:pwidth, color:'white'})
+	        } 
+	    } else if (type =='singleton'){
+	        if(condition == 'h') {
+	            if (random == 1) {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:vars.high_color, penwidth:pwidth}) 
+	            var xy1 = xy_from_polar(size/2, 45)
+	            var x1 = xy1[0]
+	            var y1 = xy1[1]
+	            obj.line({sx:x+ x1, sy:y+ y1, ex:x -x1, ey:y -y1, penwidth:pwidth, color:'white'})
+	            } else {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:vars.high_color, penwidth:pwidth})
+	            var xy2 = xy_from_polar(size/2, -45)
+	            var x2 = xy2[0]
+	            var y2 = xy2[1]
+	            obj.line({sx:x+ x2, sy:y+ y2, ex:x -x2, ey:y -y2, penwidth:pwidth, color:'white'})
+	            }
+	        } else {
+	            if (random == 1) {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:vars.low_color, penwidth:pwidth})
+	            var xy1 = xy_from_polar(size/2, 45)
+	            var x1 = xy1[0]
+	            var y1 = xy1[1]
+	            obj.line({sx:x+ x1, sy:y+ y1, ex:x -x1, ey:y -y1, penwidth:pwidth, color:'white'})
+	            } else {
+	            obj.circle({x:x, y:y, r: size, fill: false, color:vars.low_color, penwidth:pwidth})
+	            var xy2 = xy_from_polar(size/2, -45)
+	            var x2 = xy2[0]
+	            var y2 = xy2[1]
+	            obj.line({sx:x+ x2, sy:y+ y2, ex:x -x2, ey:y -y2, penwidth:pwidth, color:'white'})
+	            }
+	        }
+	    }
+	}
+	
+	
+	//Para aleatorizar (las posiciones de los estímulos en el display y la orientación de las lineas)
+	function randomPos(min, max, no) {
+	    no = (typeof no !== 'undefined') ?  no : 0
+	    var rnum = Math.floor(Math.random() * (max - min)) + min;
+	    while (rnum == no) {
+	    rnum = Math.floor(Math.random() * (max - min)) + min;
+	    }
+	  return rnum;
+	}
+	__end__
+
+define loop instruct2_loop
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set description "Corre otro objeto de forma repetida"
+	set cycles 1
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 empty_column ""
+	run instruct2_sequence
+
+define sequence instruct2_sequence
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run pre_exp2 always
+	run pre_exp_resp_1 always
+	run pre_exp4 always
+	run repeat2_response always
+	run new_repeat_cycle always
+
+define inline_javascript instruct3
+	set description "Executes JavaScript code"
+	set _run "persistent.instruct3.show()"
+	___prepare__
+	persistent.instruct3 = draw_instructions3()
+	
+	function draw_instructions3() {
+	    var instruct = Canvas() //creamos el canvas
+	    instruct.text({text: 'A su vez, la línea dentro de los diamantes podrá tener dos orientaciones:', x: 0, y: -250, font_size: 24, font_family: 'sans'})
+	    instruct.text({text: 'Vertical', x: -150, y: 0, font_size: 24, font_family: 'sans'})
+	    instruct.text({text: 'Horizontal', x: 150, y: 0, font_size: 24, font_family: 'sans'})
+	    instruct.text({text: 'Si la orientación de la línea dentro del diamante es vertical pulsa J.', x: 0, y: 150, font_size: 24, font_family: 'sans'})
+	    instruct.text({text: 'Si la orientación de la línea dentro del diamante es horizontal pulsa B.', x: 0, y: 200, font_size: 24, font_family: 'sans'})
+	    instruct.text({text: 'Pulsa la barra espaciadora para seguir.', x: 0, y: 300, font_size: 24, font_family: 'sans'})
+	   var x = -150
+	   var y = -100
+	   var pwidth = 7
+	   var size = 60
+	   var obj = instruct
+	   var n1 = [x, y+size]
+	   var n2 = [x+size, y]
+	   var n3 = [x, y-size]
+	   var n4 = [x-size, y]
+	   obj.polygon({vertices: [n1, n2, n3, n4], penwidth: pwidth, color: 'grey'})
+	   obj.line({sx:x, ex:x, sy:y-size/2, ey:y+size/2, penwidth:pwidth, color:'white'}) //Linea vertical
+	   x = 150
+	   var n1 = [x, y+size]
+	   var n2 = [x+size, y]
+	   var n3 = [x, y-size]
+	   var n4 = [x-size, y]
+	   obj.polygon({vertices: [n1, n2, n3, n4], penwidth: pwidth, color: 'grey'})
+	   obj.line({sx:x-size/2, ex:x+size/2, sy:y, ey:y, penwidth:pwidth, color:'white'}) //Linea Horizontal
+	   return instruct
+	}
+	__end__
+
+define loop instruct_loop
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set description "Corre otro objeto de forma repetida"
+	set cycles 1
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 empty_column ""
+	run instructions_seq
+
+define keyboard_response instruct_response_1
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses space
+
+define sketchpad instruction1
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="A lo largo del experimento te encontraras una estructura similar a esta:" x=0 y=-300 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=0 x2=0 y1=-10 y2=10 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-10 x2=10 y1=0 y2=0 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-192 x2=-128 y1=-96 y2=-160 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-192 x2=-128 y1=128 y2=128 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=160 x2=160 y1=96 y2=160 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=128 x2=192 y1=-160 y2=-96 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar." x=0 y=272 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=71.55417527999327 show_if=always x=-160 y=-128 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=71.55417527999327 show_if=always x=160 y=-128 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=71.55417527999327 show_if=always x=-160 y=128 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=71.55417527999327 show_if=always x=160 y=128 z_index=0
+
+define keyboard_response instruction1_key
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses space
+
+define sketchpad instruction2_key
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Tu tarea consistirá en tratar de recordar la orientación de las líneas <br> en el interior de los circulos. " x=0 y=-288 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=0 x2=0 y1=-10 y2=10 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-10 x2=10 y1=0 y2=0 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-192 x2=-128 y1=-96 y2=-160 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-192 x2=-128 y1=128 y2=128 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=160 x2=160 y1=96 y2=160 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=128 x2=192 y1=-160 y2=-96 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar." x=0 y=272 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=71.55417527999327 show_if=always x=-160 y=-128 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=71.55417527999327 show_if=always x=160 y=-128 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=71.55417527999327 show_if=always x=-160 y=128 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=71.55417527999327 show_if=always x=160 y=128 z_index=0
+
+define sketchpad instruction3
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pasado un tiempo, los estímulos desapareceran durante un breve periodo de tiempo.<br>Cuando reaparezcan, se te señalará la orientación de la línea que debes recordar. <br />" x=0 y=-288 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=0 x2=0 y1=-10 y2=10 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-10 x2=10 y1=0 y2=0 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-192 x2=-128 y1=-96 y2=-160 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-192 x2=-128 y1=128 y2=128 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=160 x2=160 y1=96 y2=160 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=128 x2=192 y1=-160 y2=-96 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar." x=0 y=272 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=32 x2=80 y1=-32 y2=-80 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=71.55417527999327 show_if=always x=-160 y=-128 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=71.55417527999327 show_if=always x=160 y=-128 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=71.55417527999327 show_if=always x=-160 y=128 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=71.55417527999327 show_if=always x=160 y=128 z_index=0
+
+define sketchpad instruction4
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar." x=0 y=272 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar." x=0 y=272 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="En función de si la orientación de la línea señalada ha cambiado <br> o no de una presentación a otra, debes dar una de estas respuestas: " x=0 y=-256 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-544 x2=-480 y1=-64 y2=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la tecla M si la orientación es la misma." x=-320 y=96 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la tecla C si la orientación es diferente. " x=320 y=96 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=71.55417527999327 show_if=always x=-512 y=-32 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=71.55417527999327 show_if=always x=480 y=-32 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=71.55417527999327 show_if=always x=-160 y=-32 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-192 x2=-128 y1=-64 y2=0 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=71.55417527999327 show_if=always x=128 y=-32 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=96 x2=160 y1=-64 y2=0 z_index=0
+	draw arrow arrow_body_length=0.8 arrow_body_width=0.5 arrow_head_width=30 color=white fill=0 penwidth=4 show_if=always x1=256 x2=352 y1=-32 y2=-32 z_index=0
+	draw arrow arrow_body_length=0.8 arrow_body_width=0.5 arrow_head_width=30 color=white fill=0 penwidth=4 show_if=always x1=-384 x2=-288 y1=-32 y2=-32 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=448 x2=512 y1=0 y2=-64 z_index=0
+
+define sketchpad instruction6
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Para que te familiarices con la tarea vamos a realizar unos cuantos ensayos de práctica. " x=32 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Si quieres volver a leer las instrucciones, pusla la tecla R. " x=0 y=160 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Si quieres continuar a la práctica, pulsa la tecla W." x=0 y=256 z_index=0
+
+define loop instruction_loop
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set description "Corre otro objeto de forma repetida"
+	set cycles 1
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 empty_column ""
+	run instruction_sequence
+
+define loop instruction_loop_1
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set description "Corre otro objeto de forma repetida"
+	set cycles 1
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 empty_column ""
+	run instruction_sequence_1
+
+define sequence instruction_sequence
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run blind_instructions2 always
+	run blind_ins always
+	run instructions_inline always
+	run repeat_ins always
+
+define sequence instruction_sequence_1
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run blind_instructions2_1 always
+	run blind_ins_1 always
+	run instructions_inline_1 always
+	run repeat_ins_1 always
+
+define sketchpad instructions
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Antes de empezar con el experimento de verdad, vas a realizar dos tareas para que podamos <br> estimar las dimensiones de tu monitor y la distancia a la que te encuentras de la pantalla.<br><br>Para ello, vas a necesitar una tarjeta de tamaño estandarizado (tarjeta de<br>crédito/débito, DNI o carnet de conducir)." x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar." x=0 y=240 z_index=0
+
+define inline_javascript instructions_inline
+	set description "Executes JavaScript code"
+	___run__
+	if (vars.response_blind_ins != "space" & vars.xbins < 600) {
+	    vars.xbins += 1
+	} else {
+	    vars.xbins = vars.xbins
+	}
+	__end__
+	set _prepare ""
+
+define inline_javascript instructions_inline_1
+	set description "Executes JavaScript code"
+	___run__
+	if (vars.response_blind_ins_1 != "p" & vars.xbins < 600) {
+	    vars.xbins += 1
+	} else {
+	    vars.xbins = 5000
+	}
+	__end__
+	set _prepare ""
+
+define sequence instructions_seq
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run instruct always
+	run instruct_response_1 always
+	run instruct2 always
+	run instruct_response_1 always
+	run instruct3 always
+	run instruct_response_1 always
+	run repeat always
+	run repeat_response always
+	run repeat_c always
+
+define sketchpad inter_trial
+	set duration 695
+	set description "Muestra estímulos"
+
+define sketchpad intro_awar
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Antes de seguir con la siguiente tarea, por favor, responde a dos <br> breves preguntas sobre el experimento que acabas de realizar. <br /><br />Es importante que las <span style='color:red'>leas con atención</span>. " x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar. " x=0 y=288 z_index=0
+
+define sketchpad intro_awar2
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Antes de terminar el experimento, por favor, responde a dos <br> breves preguntas sobre la primera tarea que realizaste, en la que podías <br> ganar puntos en función de tu desempeño. <br /><br />Por favor, <span style= 'color:red'>lee las preguntas con atención</span>." x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar. " x=0 y=288 z_index=0
+
+define inline_javascript keyboard
+	set description "Executes JavaScript code"
+	___run__
+	if (vars.response_awareness_Resp != 'enter' && vars.response_awareness_Resp != 'backspace') {
+	    vars.awareness_text += String(vars.response_awareness_Resp);
+	} else if (vars.response_awareness_Resp == 'backspace') {
+	    let temp = String(vars.awareness_text); temp = temp.slice(0, -1);
+	    vars.awareness_text = temp
+	} else {
+	    vars.awareness_text = vars.awareness_text
+	}
+	
+	let rep = String(vars.awareness_text);
+	if (rep.length == 0) {
+	    vars.out = 0;
+	} else {
+	    vars.out = 1
+	}
+	
+	    if (vars.Awareness_color == "High"){
+	        vars.awareness_estimate_High = Number(vars.awareness_text);
+	    } else {
+	        vars.awareness_estimate_Low = Number(vars.awareness_text);
+	    }
+	__end__
+	set _prepare ""
+
+define keyboard_response keyboard_ins_1
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses space
+
+define keyboard_response keyboard_response
+	set timeout "[display_time]"
+	set flush no
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses "[response]"
+
+define logger logger
+	set description "Registra datos experimentales"
+	set auto_log no
+	log response_time_keyboard_response
+	log correct_keyboard_response
+	log response_keyboard_response
+	log Phase
+	log singleton
+	log high_color
+	log low_color
+	log anticipation
+	log time_out
+	log points
+	log points_counter
+	log trial_count
+	log target_pos
+	log singleton_pos
+	log target
+	log Block
+	log pxdensity
+	log circlecm
+	log eccencm
+	log screendistancecm
+	log Trials
+	log ID
+	log counterbalance
+	log circledistance
+	log awareness_estimate_High
+	log awareness_estimate_Low
+	log target_color
+	log Orientation
+	log Trial_type
+	log Condition
+	log response_time_blind_response
+
+define repeat_cycle new_repeat_cycle
+	set description "Optionally repeat a cycle from a loop"
+	set condition "[response_repeat2_response] = r"
+
+define sequence new_sequence
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run awareness_question always
+	run awareness_Resp always
+	run keyboard always
+	run logger "[awareness_count] = 2 and [response_awareness_Resp] = enter or [awareness_count] = 4 and [response_awareness_Resp] = enter"
+	run repeat_keyboard always
+
+define keyboard_response post
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses w
+
+define sketchpad post2_trial
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa W cuando quieras seguir con el siguiente ensayo. " x=0 y=288 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Recuerda: tapa tu ojo derecho, mira a la cruz de fijación <br> y pulsa W cuando percibas que el círculo rojo desaparece." x=0 y=0 z_index=0
+
+define sketchpad post_1trial
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Ahora que has terminado el primer ensayo, el círculo <br> va a aparecer cerca de donde respondiste la última vez.<br /><br />Dado que ya sabes a qué distancia desaparece, puedes pulsar W <br> en cuanto detectes que el círculo desaparece. <br /><br />Recuerda: tapa tu ojo derecho, mira a la cruz de fijación <br> y pulsa W cuando percibas que el círculo rojo desaparece." x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa W cuando quieras seguir con el siguiente ensayo. " x=0 y=288 z_index=0
+
+define sketchpad preWM
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="¡Muy bien!" x=0 y=-128 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Ahora que ya te has familiarizado con la tarea vamos a empezar con la tarea de verdad.<br>A diferencia de la práctica, ahora los círculos podrán aparecer en diferentes colores. Sin embargo,<br>tu tarea sigue siendo recordar la orientación de las líneas, así que ignora el color. " x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Si quieres comenzar con la tarea, pulsa la tecla W. " x=0 y=224 z_index=0
+
+define sketchpad pre_blind
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Vas a realizar unos pocos ensayos de esta tarea. <br> <br> Recuerda: tapa tu ojo derecho y pulsa W cuando percibas que el <br> círculo desaparece durante 2 o 3 segundos mientras mantienes <br> la mirada en la cruz de fijación." x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa W para comenzar la tarea." x=0 y=240 z_index=0
+
+define keyboard_response pre_blind_key
+	set timeout infinite
+	set flush no
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses W
+
+define sketchpad pre_exp
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Has terminado la fase de práctica ¡Muy bien!<br /><br />Ahora que te has familiarizado con la tarea, vamos a empezar <br> con el experimento de verdad. " x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para seguir. " x=0 y=250 z_index=0
+
+define sketchpad pre_exp2
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="A partir de ahora, a lo largo de la tarea podrás ganar diferentes <br> cantidades de puntos en función de tu rendimiento.<br /><br />Responder correctamente te hará ganar puntos, pero los fallos te harán <br> perder la misma cantidad que hubieses ganado. Por otro lado, responder más <br> rápido te puede hacer ganar (si aciertas) o perder (si fallas) más puntos. <br> Además, si respondes demasiado lento no ganarás puntos.<br />" x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para seguir. " x=0 y=250 z_index=0
+
+define sketchpad pre_exp4
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Ahora sí, estás apunto de comenzar el experimento. " x=0 y=-250 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Antes de empezar, recuerda: <br /><br />Pulsa J si la orientación de la linea dentro del diamante es vertical. <br /><br />Pulsa B si la orientación de la linea dentro del diamante es horizontal. " x=0 y=-25 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Si quieres revisar otra vez las instrucciones sobre la fase experimental, pulsa R. " x=0 y=160 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Si no, pulsa la barra espaciadora para empezar el experimento. " x=0 y=250 z_index=0
+
+define keyboard_response pre_exp_resp_1
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses space
+
+define inline_javascript prueba_polar
+	set description "Executes JavaScript code"
+	set _run "persistent.p.show();"
+	___prepare__
+	persistent.p = draw_memArray();
+	
+	function draw_memArray() {
+	
+	    vars.target_pos = random(0, 4);
+	    if(vars.Trial_type == 'Different'){
+	        vars.singleton_pos = random(0, 4, vars.target_pos);
+	    } else {
+	        vars.singleton_pos = vars.target_pos;
+	    }
+	
+	    persistent.actualColorArray = randomColorArray(vars.Trial_type, persistent.colorArray, persistent.colorValueArray, vars.target_pos, vars.singleton_pos);
+	    persistent.orientArray = [];
+	    var p = Canvas();
+	    const set = 4;
+	    persistent.xy_display = xy_circle(set, Number(vars.eccenpx), 45, [0,0]); //Excentricidad de prueba
+	    let orient;
+	    var pos = 0;
+	    const oriArray = [0, 45, 90, 135];
+	    for (var i in persistent.xy_display) {
+	        orient = oriArray[random(0,4)];
+	        persistent.orientArray[pos] = orient;
+	        if (vars.Phase !== 'Practice'){
+	             stim(p, persistent.xy_display[i][0], persistent.xy_display[i][1], vars.circleradpx, orient, persistent.actualColorArray[pos], vars.linewidthpx);
+	        } else {
+	                 stim(p, persistent.xy_display[i][0], persistent.xy_display[i][1], vars.circleradpx, orient, 'grey', vars.linewidthpx);
+	        }
+	        pos++;
+	    }
+	    p.line({sx:0, sy:vars.fixpx, ex:0, ey:-vars.fixpx, color:'white', penwidth: vars.fixwidthpx}); //Fixation point
+	    p.line({sx:vars.fixpx, sy:0, ex:-vars.fixpx, ey:0, color:'white', penwidth: vars.fixwidthpx});
+	    return p;
+	}
+	
+	function stim(obj, x, y, circSize, orient, color, pwidth){
+	            var xy = xy_from_polar(circSize/2, Number(orient));
+	            obj.circle({x:x, y:y, r: circSize, fill: false, color:color, penwidth:pwidth}); //Draw circle
+	            obj.line({sx:x + xy[0], ex:x - xy[0], sy:y + xy[1], ey:y - xy[1], penwidth:pwidth, color:'white'}); //Draw random line
+	}
+	
+	function random(min, max, no) {
+	    no = (typeof no !== 'undefined') ?  no : NaN
+	    if (max-min !== 1){
+	        var rnum = Math.floor(Math.random() * (max - min)) + min;
+	        while (rnum == no) {
+	            rnum = Math.floor(Math.random() * (max - min)) + min;
+	        }
+	    } else {
+	        var rnum = min;
+	    }
+	  return rnum;
+	}
+	
+	function randomColorArray(type, arr1, arr2, targetPos, distPos){
+	    var colorPosArray = [0, 0, 0, 0];
+	    if (type === 'Distractor') {
+	            colorPosArray[targetPos] = arr1.splice(random(0, arr1.length), 1)[0];
+	            colorPosArray[distPos] = (vars.singleton === "High")? arr2[0]: arr2[1];
+	            for (var i = 0; i <colorPosArray.length; i++) {
+	                if(!(i === targetPos || i === distPos)) {//double negation works different
+	                    colorPosArray[i] = arr1.splice(random(0, arr1.length), 1)[0];
+	                }
+	            }
+	    } else if (type === 'Target') {
+	            colorPosArray[targetPos] = (vars.singleton === "High")? arr2[0]: arr2[1];
+	            for (var i = 0; i <colorPosArray.length; i++) {
+	                if(i !== targetPos) {
+	                    colorPosArray[i] = arr1.splice(random(0, arr1.length), 1)[0];
+	                }
+	            }
+	    } else {
+	        colorPosArray[targetPos] = arr1.splice(random(0, arr1.length), 1)[0];
+	        for (var i = 0; i <colorPosArray.length; i++) {
+	            if(i !== targetPos) {
+	                colorPosArray[i] = arr1.splice(random(0, arr1.length), 1)[0];
+	            }
+	        }
+	    }
+	    return colorPosArray;
+	}
+	
+	(vars.singleton === "High")? console.log("Sí"): console.log("No");
+	__end__
+
+define inline_javascript prueba_test
+	set description "Executes JavaScript code"
+	___run__
+	persistent.t.show();
+	__end__
+	___prepare__
+	persistent.t = draw_testArray();
+	
+	function draw_testArray() {
+	    var t = Canvas();
+	    var pos = 0;
+	    let xy_2 = xy_circle(4, vars.circleradpx*2.7, 45, [0,0]);
+	    let xy_1 = xy_circle(4, vars.circleradpx, 45, [0,0]); //Probe line coordenates
+	    let xypos = [xy_1[vars.target_pos], xy_2[vars.target_pos]];
+	    for (var i in persistent.xy_display) {
+	        persistent.orientArray[pos] = (pos === vars.target_pos && vars.Orientation == 'Different')? persistent.orientArray[pos]+changeOrientation(90): (pos === vars.target_pos && vars.Orientation == 'Same')? persistent.orientArray[pos]: persistent.orientArray[pos]+changeOrientation(90)
+	        
+	        if (vars.Phase !== 'Practice'){
+	             stim(t, persistent.xy_display[i][0], persistent.xy_display[i][1], vars.circleradpx, persistent.orientArray[pos], persistent.actualColorArray[pos], vars.linewidthpx);
+	        } else {
+	                 stim(t, persistent.xy_display[i][0], persistent.xy_display[i][1], vars.circleradpx, persistent.orientArray[pos], 'grey', vars.linewidthpx);
+	        }
+	        pos++;
+	    }
+	    t.line({sx: xypos[0][0], ex:  xypos[1][0], sy:  xypos[0][1], ey:  xypos[1][1], penwidth: vars.linewidthpx, color: 'white'})//ProbeLine
+	    t.line({sx:0, sy:vars.fixpx, ex:0, ey:-vars.fixpx, color:'white', penwidth: vars.fixwidthpx}); //Fixation point
+	    t.line({sx:vars.fixpx, sy:0, ex:-vars.fixpx, ey:0, color:'white', penwidth: vars.fixwidthpx});
+	    return t;
+	}
+	
+	function stim(obj, x, y, circSize, orient, color, pwidth){
+	            var xy = xy_from_polar(circSize/2, Number(orient));
+	            obj.circle({x:x, y:y, r: circSize, fill: false, color:color, penwidth:pwidth}); //Draw circle
+	            obj.line({sx:x + xy[0], ex:x - xy[0], sy:y + xy[1], ey:y - xy[1], penwidth:pwidth, color:'white'}); //Draw random line
+	}
+	
+	function random(min, max, no) {
+	    no = (typeof no !== 'undefined') ?  no : NaN
+	    if (max-min !== 1){
+	        var rnum = Math.floor(Math.random() * (max - min)) + min;
+	        while (rnum == no) {
+	            rnum = Math.floor(Math.random() * (max - min)) + min;
+	        }
+	    } else {
+	        var rnum = min;
+	    }
+	  return rnum;
+	}
+	
+	function changeOrientation(change) {
+	    let orientation = (random(0,2) === 0)? -Math.abs(change): Math.abs(change);
+	    return orientation;
+	}
+	
+	vars.response = 'c;m';
+	vars.display_time = 2995;
+	__end__
+
+define sketchpad repeat
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="En caso de que quieras volver a leer las instrucciones, pulsa la tecla R. <br><br> Por el contrario, si quieres empezar con la práctica, pulsa la barra espaciadora." x=0 y=200 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Antes de empezar con el experimento vamos a realizar<br />unos cuantos ensayos de práctica para que te familiarices con la tarea.<br /><br /><br /><br />Recuerda:<br /><br />Pulsa J si la orientación de la línea dentro del diamante es vertical. <br /><br />Pulsa B si la orientación de la línea dentro del diamante es horizontal. " x=0 y=-100 z_index=0
+
+define keyboard_response repeat2_response
+	set timeout infinite
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses "r;space"
+
+define repeat_cycle repeat_c
+	set description "Optionally repeat a cycle from a loop"
+	set condition "[response_repeat_response] == r"
+
+define repeat_cycle repeat_cicle_card
+	set description "Optionally repeat a cycle from a loop"
+	set condition "[response_card] = c or [response_card] = m"
+
+define repeat_cycle repeat_cycle
+	set description "Optionally repeat a cycle from a loop"
+	set condition "[response_Last_instructions1WM] = r"
+
+define repeat_cycle repeat_ins
+	set description "Optionally repeat a cycle from a loop"
+	set condition "[response_blind_ins] != space"
+
+define repeat_cycle repeat_ins_1
+	set description "Optionally repeat a cycle from a loop"
+	set condition "[response_blind_ins_1] != space"
+
+define repeat_cycle repeat_keyboard
+	set description "Optionally repeat a cycle from a loop"
+	set condition "[response_awareness_Resp] != enter or [out] = 0"
+
+define keyboard_response repeat_response
+	set timeout infinite
+	set flush no
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses "r;space"
+
+define reset_feedback reset_feedback
+	set description "Resets the feedback variables, such as 'avg_rt' and 'acc'"
+
+define inline_javascript rest_inst_VMAC
+	set description "Executes JavaScript code"
+	set _run ""
+	___prepare__
+	vars.text1 = 'Pulsa la tecla J si la orientación de la linea dentro del diamante es vertical.'
+	vars.text2 = 'Pulsa la tecla B si la orientación de la linea dentro del diamante es horizontal.'
+	__end__
+
+define inline_javascript rest_inst_WM
+	set description "Executes JavaScript code"
+	set _run ""
+	___prepare__
+	vars.text1 = 'Pulsa la tecla C si la orientación de la linea señalada cambia.'
+	vars.text2 = 'Pulsa la tecla M si la orientación de la linea señalada es la misma.'
+	__end__
+
+define inline_javascript rest_trial_count
+	set description "Executes JavaScript code"
+	___run__
+	if (vars.Phase == 'Practice' & vars.trial_count == 24){
+	    vars.trial_count = 0
+	}
+	__end__
+	set _prepare ""
+
+define keyboard_response retention_interval_1
+	set timeout "[jitter2]"
+	set flush yes
+	set event_type keypress
+	set duration keypress
+	set description "Recoge respuestas de teclado"
+	set allowed_responses "#"
+
+define sequence sequence
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run Trial_counter always
+	run fixation_inline always
+	run fixation always
+	run prueba_polar always
+	run display_key always
+	run fixation_inline always
+	run retention_interval_1 always
+	run prueba_test always
+	run keyboard_response always
+	run correct_inline always
+	run Feedback_nreward "[Phase] == Practice and [response_time_keyboard_response] <= 2995"
+	run Fedback_slow "[Phase] == Practice and [response_time_keyboard_response] > 2995"
+	run logger always
+
+define sketchpad start
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="¡Ya has llegado a la última parte del experimento!" x=0 y=-160 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Ahora vas a tener que realizar una tarea, <br> diferente a la que acabas de realizar.<br>A partir de ahora <span style='color:red'>ya no ganaras más puntos</span>." x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar. " x=0 y=288 z_index=0
+
+define sketchpad stimuli
+	set duration 0
+	set description "Muestra estímulos"
+	draw rect color=white fill=1 h="[h]" penwidth=1 show_if=always w="[w]" x="-[x]" y="[y]" z_index=0
+	draw rect color=red fill=0 h="[h5]" penwidth=5 show_if=always w="[w5]" x="-[x5]" y="[y5]" z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la tecla P cuando los laterales de la tarjeta coincidan con la <br> parte interna del borde rojo. " x=0 y=240 z_index=0
+
+define inline_javascript trial_count
+	set description "Executes JavaScript code"
+	___run__
+	vars.trial_count += 1;
+	
+	if (vars.Block == 0) {
+	    vars.singleton = vars.practice;
+	}
+	__end__
+	set _prepare "vars.jitter1 = 495;"
+
+define loop trial_loop_blind
+	set source_file ""
+	set source table
+	set repeat 1
+	set order random
+	set description "Corre otro objeto de forma repetida"
+	set cycles 1
+	set continuous no
+	set break_if_on_first yes
+	set break_if never
+	setcycle 0 empty_column ""
+	run trial_sequence_1
+
+define sequence trial_sequence_1
+	set flush_keyboard yes
+	set description "Corre un número de objetos en secuencia"
+	run circle always
+	run blind_response always
+	run blind_inline always
+	run logger "[response_blind_response] = w"
+	run blind_repeat always
+
+define sketchpad welcome
+	set start_response_interval no
+	set reset_variables no
+	set duration keypress
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=serif font_italic=no font_size=32 html=yes show_if=always text="Bienvenida/o al experimento" x=0 y=0 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=serif font_italic=no font_size=32 html=yes show_if=always text="Pulsa cualquier tecla para empezar" x=0 y=256 z_index=0
+
+define sketchpad wm_events
+	set duration 0
+	set description "Muestra estímulos"
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="En resumen esta será la secuencia de eventos: " x=0 y=-288 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-460 x2=-460 y1=-60 y2=-40 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-470 x2=-450 y1=-50 y2=-50 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Se te presentarán los estímulos" x=-460 y=140 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=0 x2=0 y1=-50 y2=-30 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-10 x2=10 y1=-40 y2=-40 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Estos desaparecerán brevemente" x=-15 y=140 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Volverán a aparecer y se te <br> señalará la orientación de la línea <br> que deberás recordar" x=450 y=170 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=44.721359549995796 show_if=always x=360 y=-120 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=44.721359549995796 show_if=always x=520 y=-120 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=44.721359549995796 show_if=always x=360 y=40 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=440 x2=440 y1=-30 y2=-50 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=430 x2=450 y1=-40 y2=-40 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=420 x2=400 y1=-60 y2=-80 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=44.721359549995796 show_if=always x=-540 y=-140 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=44.721359549995796 show_if=always x=-540 y=40 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=44.721359549995796 show_if=always x=-380 y=-140 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-560 x2=-520 y1=-140 y2=-140 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-540 x2=-540 y1=60 y2=20 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-400 x2=-360 y1=-160 y2=-120 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=-360 x2=-400 y1=20 y2=60 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=44.721359549995796 show_if=always x=-380 y=40 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=360 x2=360 y1=20 y2=60 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=500 x2=540 y1=-140 y2=-100 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=540 x2=500 y1=20 y2=60 z_index=0
+	draw circle color=gray fill=0 penwidth=4 r=44.721359549995796 show_if=always x=520 y=40 z_index=0
+	draw textline center=1 color=white font_bold=no font_family=sans font_italic=no font_size=24 html=yes show_if=always text="Pulsa la barra espaciadora para continuar" x=0 y=300 z_index=0
+	draw arrow arrow_body_length=0.8 arrow_body_width=0.5 arrow_head_width=30 color=white fill=0 penwidth=1 show_if=always x1=-280 x2=-210 y1=-50 y2=-50 z_index=0
+	draw arrow arrow_body_length=0.8 arrow_body_width=0.5 arrow_head_width=30 color=white fill=0 penwidth=1 show_if=always x1=180 x2=250 y1=-50 y2=-50 z_index=0
+	draw line color=white penwidth=4 show_if=always x1=360 x2=360 y1=-144 y2=-96 z_index=0
+
