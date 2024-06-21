@@ -178,7 +178,7 @@ mean(estimates$spearmanbrown > .7) *100
 # Create plot for reliability multiverse:
 
 # Create plot for reliability multiverse:
-cbind(estimates,multi_data[,2] %>% unnest()) %>%
+n_spec <- cbind(estimates,multi_data[,2] %>% unnest()) %>%
   arrange(spearmanbrown) %>%
   mutate(Universe = 1:128) %>%
   filter(RT_sd_cutoff == 2, RT_fix_cutof == T,
@@ -186,7 +186,7 @@ cbind(estimates,multi_data[,2] %>% unnest()) %>%
          NBlocks == 12, Two_Trials == F) %>% pull(Universe)
 
 
-mr_plot_e1 <- multiverse_plot(estimates, multi_data, spec_seg = 119)
+mr_plot_e1 <- multiverse_plot(estimates, multi_data, spec_seg = n_spec)
 
 ggsave(
   plot = mr_plot_e1,
@@ -327,7 +327,7 @@ range(estimates[estimates$Group == "A",]$spearmanbrown)
 mean(estimates[estimates$Group == "A",]$spearmanbrown > .7) *100
 
 # Create plot for reliability multiverse:
-cbind(estimates[estimates$Group == "A",],spec[,2] %>% unnest()) %>%
+n_specA <- cbind(estimates[estimates$Group == "A",],spec[,2] %>% unnest()) %>%
   arrange(spearmanbrown) %>%
   mutate(Universe = 1:128) %>%
   filter(RT_sd_cutoff == 2, RT_fix_cutof == T,
@@ -335,7 +335,7 @@ cbind(estimates[estimates$Group == "A",],spec[,2] %>% unnest()) %>%
          NBlocks == 12, Two_Trials == F) %>%pull(Universe)
 
 mr_plot_e2_i <- multiverse_plot(estimates[estimates$Group == "A",], multi_data,
-                                spec_seg = 118)
+                                spec_seg = n_specA)
 
 ggsave(
   plot = mr_plot_e2_i,
@@ -352,7 +352,7 @@ range(estimates[estimates$Group == "B",]$spearmanbrown)
 mean(estimates[estimates$Group == "B",]$spearmanbrown > .7) *100
 
 # Create plot for reliability multiverse:
-cbind(estimates[estimates$Group == "B",],spec[,2] %>% unnest()) %>%
+n_specB <- cbind(estimates[estimates$Group == "B",],spec[,2] %>% unnest()) %>%
   arrange(spearmanbrown) %>%
   mutate(Universe = 1:128) %>%
   filter(RT_sd_cutoff == 2, RT_fix_cutof == T,
@@ -360,7 +360,7 @@ cbind(estimates[estimates$Group == "B",],spec[,2] %>% unnest()) %>%
          NBlocks == 12, Two_Trials == F) %>% pull(Universe)
 
 mr_plot_e2_in <- multiverse_plot(estimates[estimates$Group == "B",], multi_data,
-                                 spec_seg = 79)
+                                 spec_seg = n_specB)
 ggsave(
   plot = mr_plot_e2_in,
   height = 20,
@@ -413,7 +413,7 @@ cor_multi <- rbind(
 
 # Plot multiverse for the instructions group:
 corM_e2i <- multiverse_plot(cor_multi[cor_multi$Group == "Instructions",], multi_data, cor = T,
-                            minimun_t = F, spec_seg = 90, y_name = "Correlation coeficient")
+                            minimun_t = F, spec_seg = n_specA, y_name = "Correlation coeficient")
 
 ggsave(
   plot = corM_e2i,
@@ -426,7 +426,7 @@ ggsave(
 
 # Plot multiverse for the no instructions group:
 corM_e2ni <- multiverse_plot(cor_multi[cor_multi$Group == "No instructions",], multi_data, cor = T,
-                             minimun_t = F, spec_seg = 79, y_name = "Correlation coeficient")
+                             minimun_t = F, spec_seg = n_specB, y_name = "Correlation coeficient")
 
 ggsave(
   plot = corM_e2ni,
