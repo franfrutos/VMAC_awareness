@@ -1,5 +1,4 @@
 # Author: Francisco Garre-Frutos
-# Date: 20/06/2024
 
 # Power analysis from Garre-Frutos et al. (2024)
 
@@ -9,7 +8,7 @@ if (!require(pacman)) {
   library(pacman)
 }
 
-p_load(dplyr, lme4, lmerTest, hypr, simr, pbapply, future, parallel, ggplot2)
+p_load(dplyr, lme4, lmerTest, hypr, simr, pbapply, future, parallel, ggplot2, pwr)
 
 source("scripts/functions.R") # Load data and all relevant functions
 
@@ -23,12 +22,20 @@ if (!file.exists("Output/power.rds")) {
     levels = c("High","Low", "Absent")
   )
   
-  d <- filter_data(raw_fm, f.absent = F) %>% filter(Phase == "Rewarded")
+  d <- filter_data(raw_fm, f.absent = F, experiment = "original") %>% filter(Phase == "Rewarded")
   d$rt <- log(d$RT)
   d$Singleton <- factor(d$Singleton, levels= c("High","Low", "Absent"))
   contrasts(d$Singleton) <- HcRep
   d$c_block <- scale(log(d$Block), scale = F)[,1]
   
+  d_test <- d %>%
+    filter(Singleton != "Absent") %>%
+    dplyr::summarise(rt = mean(rt),
+                     .by = c(ID, Singleton)) %>%
+    spread(Singleton, rt)
+  
+  t.test(d_test$High, d_test$Low, paired = T)
+
   fit.2_power <- lmer(rt~Singleton*c_block+(Singleton+c_block|ID),control=lmerControl(optimizer='bobyqa'),
                       data = d)
   
@@ -91,3 +98,10 @@ ggsave(plot = plot_power,
        width = 10,
        units = "cm",
        dpi = 900)
+
+# Sensitivity analysis:
+# Experiment 1
+pwr.r.test(n = 82, power = .80)
+pwr.r.test(n = 81, power = .80)
+
+

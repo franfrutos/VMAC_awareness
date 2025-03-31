@@ -1,5 +1,4 @@
 # Author: Francisco Garre-Frutos
-# Date: 20/06/2024
 
 # Script with helper functions
 
@@ -12,7 +11,7 @@ if (!require(pacman)) {
   library(pacman)
 }
 
-p_load(dplyr, Hmisc, grid, ggthemes)
+p_load(dplyr, Hmisc, grid, ggthemes, colorspace)
 
 # Defining functions ----
 
@@ -33,12 +32,18 @@ filter_data <- function(data,
   out <- data %>%
     filter(Phase %in% phase, !(Trials %in% filt_trial), !ID %in% acc_ex[[experiment]])
   
+  if (experiment == "original") {
+    out$rt <- out$RT 
+    out$acc <- out$Accuracy
+  }
+  
   if (f.absent)
     out <- out[which(out$Singleton != "Absent"), ]
   
-  if (fixed)
+  if (fixed) {
     out <- out[which(out$rt > 150 & out$rt < 1800), ]
-  
+  }
+
   if (is.numeric(sd_filter) &
       ifelse(is.null(sd_filter), F, sd_filter %in% 1:3)) {
     out <- out %>%
@@ -66,6 +71,19 @@ create_epochs <- function(blocks, epoch = 2) {
   }, FUN.VALUE = numeric(1))
   
 }
+
+# Spearman-Brown correction function from Spearman (1904)
+sp_correction <- function(rxy, rxx, ryy) {
+  # Check for valid inputs
+  if (is.null(rxy) || is.null(rxx) || is.null(ryy)) {
+    stop("All inputs must be provided.")
+  }
+  
+  # Calculate Spearman-Brown corrected reliability
+  return(rxy / sqrt(rxx * ryy))
+}
+
+sp_correction(.13, .76, .56)
 
 # Theme used in the plots
 theme_Publication <-
@@ -639,3 +657,12 @@ get_effectCont <- function(d,
   ) %>% mutate(Block = Block * 2 - .5)
   return(Quants)
 }
+
+# Color codes for plots ----
+list_colors <- list(
+  singleton = Colors <- c("High" = "#330023", "Low" = "#7d0000", "Absent" = "#df5800") 
+)
+
+
+list_colors[["Effects"]] <- c("VMAC" = '#330004', "AC" = "#7d4b00")
+

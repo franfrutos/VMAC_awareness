@@ -1,5 +1,4 @@
 # Author: Francisco Garre-Frutos
-# Date: 20/06/2024
 
 # Script to load data;
 
@@ -17,7 +16,7 @@ acc_ex <- list() # List to exclude participants based on accuracy
 
 # Loading data from Garre-Frutos et al. (2024): ----
 # Loading raw data of the previous experiment
-raw_m <- read.csv("Input/raw_data_multi.csv")
+raw_m <- read.csv("Input/data/raw_data_multi.csv")
 
 # There are participants with less observations than the max number of observations?
 check <- raw_m %>%
@@ -54,7 +53,7 @@ raw_fm %>%
 
 # Loading data from Experiment 1: ----
 
-raw_e1 <- read.csv("Input/experiment_1.csv")
+raw_e1 <- read.csv("Input/data/experiment_1.csv")
 
 check <- raw_e1 %>% filter(Phase == "Rewarded") %>%
   group_by(ID, Phase) %>%
@@ -152,7 +151,7 @@ length(unique(raw_e1$ID))
 
 # Loading data from Experiment 2: ----
 
-raw_e2 <- read.csv("Input/experiment_2.csv")
+raw_e2 <- read.csv("Input/data/experiment_2.csv")
 
 raw_e2 <- raw_e2[raw_e2$Phase == "Rewarded", ] %>%
   dplyr::rename("Trials" = "trial_num", "acc" = "correct")

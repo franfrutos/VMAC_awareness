@@ -1,5 +1,4 @@
 # Author: Francisco Garre-Frutos
-# Date: 20/06/2024
 
 # Analysis for all the analyses related to experiment 1
 
@@ -21,7 +20,12 @@ p_load(
   sjPlot,# Tables
   ggplot2,# Plotting
   ggExtra,# fancier plotting
-  ggpubr # Combined plots
+  ggpubr, # Combined plots
+  afex,
+  BayesFactor, # BF
+  effectsize, # cohen's d
+  Rmisc, # Within-subject summary statistics 
+  car # Anova tables for (G)LMMs
 )
 
 
@@ -65,6 +69,7 @@ fit.2_pow <-
 
 summary(fit.2_pow) # model summary
 
+Anova(fit.2_pow) # ANOVA-like table of the selected model
 
 # Selected model predictions for each type of singleton
 predictions(
@@ -89,8 +94,19 @@ avg_comparisons(
                                2) - exp(lo + (sigma(fit.2_pow) ^ 2) / 2)
 )
 
-# ACC analysis ----
+# Bayes factor for the VMAC effect
+dBF <- d_RT %>%
+  filter(Singleton != "Absent") %>%
+  dplyr::summarise(rt = mean(rt),
+                   .by = c(ID, Singleton)) %>%
+  spread(Singleton, rt)
 
+t.test(dBF$High, dBF$Low, paired = T)
+t_to_d(0.39793, 81, paired = T)
+
+1/BayesFactor::ttestBF(dBF$High, dBF$Low, paired = T)
+
+# ACC analysis ----
 d_acc <-
   filter_data(raw_e1,
               f.absent = F,
@@ -131,6 +147,7 @@ fit.acc3 <-
   )
 
 summary(fit.acc3) # Maximal model
+Anova(fit.acc3) # Anova-like table
 
 # Predictions for each Singleton:
 predictions(
@@ -163,20 +180,21 @@ sjPlot::tab_model(fit.acc3, digits = 3, digits.re = 3) # table 1 (right)
 preds <- get_predictions(d_RT, fit.2_pow)
 
 # Plot predictions
-ppreds <- ggplot(data = preds[["mod"]],
+(ppreds <- ggplot(data = preds[["mod"]],
                  aes(
                    y = estimate,
                    x = Block,
                    color = Singleton,
                    fill = Singleton
                  )) +
-  geom_line() +
+  geom_line(size = 1, aes(linetype = Singleton)) +
   geom_ribbon(aes(ymin = conf.low, ymax = conf.high),
-              alpha = .3,
+              alpha = .15,
               color = NA) +
   geom_point(data = preds[["raw"]],
-             aes(x = as.numeric(Block)),
-             position = position_dodge(.5)) +
+             aes(x = as.numeric(Block), shape = Singleton),
+             position = position_dodge(.5),
+             size = 2.5) +
   geom_errorbar(
     data = preds[["raw"]],
     aes(
@@ -188,28 +206,29 @@ ppreds <- ggplot(data = preds[["mod"]],
     width = .01
   ) +
   scale_x_continuous(breaks = seq(1, 24, 1)) +
-  scale_y_continuous(breaks = seq(600, 900, 50)) +
-  scale_color_brewer(palette = "Set1", name = "Singleton type") +
-  scale_fill_brewer(palette = "Set1", name = "Singleton type") +
+  scale_y_continuous(breaks = seq(600, 900, 25)) +
+  scale_color_manual(values = list_colors$singleton, name = "Singleton type") +
+  scale_fill_manual(values = list_colors$singleton, name = "Singleton type") +
+  scale_shape(name = "Singleton type") +
+  scale_linetype(name = "Singleton type") +
   labs(y = "Response time (ms)") +
-  guides(colour = guide_legend(position = "inside"),
-         fill = guide_legend(position = "inside")) +
-  theme_Publication(text_size = 12) +
+  theme_Publication(text_size = 14) +
   theme(
     legend.position = "top",
     legend.spacing.y = unit(.2, 'cm'),
-    plot.margin = unit(c(2, 2, 2, 2), "mm")
-  )
+    plot.margin = unit(c(2, 2, 2, 2), "mm"),
+    legend.key.size = unit(1, 'cm')
+  ))
 
 # Analysis of contingency rating:
-
 raw_diff <- raw_e1[!raw_e1$ID %in% acc_ex$e1 &
                      raw_e1$awareness_estimate_High != "None", ] %>%
   mutate(
     points_h = as.numeric(awareness_estimate_High),
     points_l = as.numeric(awareness_estimate_Low)
   ) %>%
-  dplyr::summarise(points = max(points_h) - max(points_l), .by = "ID")
+  dplyr::summarise(points = max(points_h) - max(points_l), .by = "ID") %>%
+  mutate(points_norm = points/max(points))
 effs <- d_RT %>%
   dplyr::summarise(RT = mean(rt), .by = c("ID", "Singleton")) %>%
   tidyr::spread(Singleton, RT) %>%
@@ -220,10 +239,7 @@ effs <- d_RT %>%
 car::qqPlot(effs$points) # Non-normally distributed
 car::qqPlot(effs$VMAC) # Almost normally distributed
 
-wilcox.test(effs$points)# Significant differences
-
-effs$sd_diff <- scale(effs$points)[, 1]
-effs$sd_vmac <- scale(effs$VMAC)[, 1]
+wilcox.test(effs$points) # Significant differences
 
 # Descriptive statistics
 mean(effs$points) # 3,478.9 points
@@ -236,23 +252,44 @@ with(effs, (length(points[points > 0]) /
 length(effs$points[effs$points > 0]) # 40 participants
 
 # Correlation between VMAC and points difference
-with(effs, cor.test(sd_diff, sd_vmac, method = "spearman"))
+with(effs, cor.test(points, VMAC, method = "spearman"))
+sp_correction(.12, .75, .7)
 
-plot_points <- ggplot(effs, aes(sd_diff, sd_vmac)) +
-  geom_point(alpha = .5,
-             color = "darkorange",
-             fill = "darkorange") +
+avg_data <- cbind(Rmisc::summarySE(data=effs,
+                                    measurevar = "VMAC") %>%
+                     dplyr::rename("Measure1" = "VMAC",
+                                   "se1" = "se") %>%
+                     select(Measure1, se1),
+                   Rmisc::summarySE(data=effs,
+                                    measurevar = "points_norm")%>%
+                     dplyr::rename("Measure2" = "points_norm",
+                                   "se2" = "se") %>%
+                     select(Measure2, se2))
+
+(plot_points <- ggplot(effs, aes(points_norm, VMAC)) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "black") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
+  geom_point(alpha = .4,
+             color = "#d16606",
+             fill = "#d16606") +
   geom_smooth(method = "lm",
-              color = "darkorange",
-              fill = "darkorange") +
-  labs(x = "Standarized contingency rating", y = "Standarized VMAC effect") +
-  scale_y_continuous(breaks = seq(-2, 2, 2)) +
-  theme_Publication()
+              color = "#d16606",
+              fill = "#d16606",
+              size = .9, alpha = .15,
+              linetype = "dashed") +
+  labs(x = "Normalized contingency rating", y = "VMAC scores (ms)") +
+  geom_point(data=avg_data, aes(Measure2, Measure1), size = 3, color = "#D2691E") +  
+  geom_errorbar(data=avg_data, aes(ymin = Measure1 - se1, ymax = Measure1 + se1, y = Measure1, x = Measure2),
+                width = 0, color = "#D2691E", size = 1) +
+  geom_errorbarh(data=avg_data, aes(xmin = Measure2 - se2, xmax = Measure2 + se2, y = Measure1, x = Measure2),
+                 height = 0, color = "#D2691E", size = 1) +
+  scale_y_continuous(breaks = seq(-40, 80, 40)) +
+  theme_Publication(text_size = 14))
 
 plot_points <- ggMarginal(
   plot_points,
-  fill = "darkorange",
-  color = "darkorange",
+  fill = "#d16606",
+  color = "#d16606",
   alpha = .3,
   type = "densigram",
   size = 8
@@ -312,42 +349,46 @@ comps_ni$Effect <- factor(comps_ni$Effect, levels = c("VMAC", "AC"))
 rawCont <- get_effectCont(d_RTc, probs = .6)
 
 # Plot both model conditional effects and raw data together
-ggplot(data = comps_ni, aes(
-  y = estimate,
-  x = Block,
-  color = Effect,
-  fill = Effect,
-)) +
-  geom_line() +
-  facet_wrap( ~ Contingency) +
-  geom_ribbon(aes(ymin = conf.low, ymax = conf.high),
-              alpha = .3,
-              color = NA) +
-  #facet_wrap( ~ Phase, scales = "free_x") +
-  geom_point(data = rawCont, aes(x = as.numeric(Block)), position = position_dodge(.5)) +
-  geom_errorbar(
-    data = rawCont,
-    aes(
-      x = as.numeric(Block),
-      ymin = estimate - se,
-      ymax = estimate + se
-    ),
-    position = position_dodge(.6),
-    width = .01
-  ) +
-  scale_x_continuous(breaks = seq(1, 24, 1)) +
-  scale_y_continuous(breaks = seq(-20, 60, 20)) +
-  scale_color_brewer(palette = "Set1", name = "Contrast") +
-  scale_fill_brewer(palette = "Set1", name = "Contrast") +
-  labs(y = "Contrast (ms)", x = "Block") +
-  geom_hline(yintercept = 0, linetype = "dashed") +
-  theme_Publication(text_size = 12) + # text size is adjusted for DPI
-  theme(
-    legend.spacing.x = unit(.2, 'cm'),
-    plot.margin = margin(t = ".2", l = ".5", unit = "cm"),
-    legend.position = "bottom"
-  )
-
+(pcontingency1 <- ggplot(data = comps_ni,
+                  aes(
+                    y = estimate,
+                    x = Block,
+                    color = Effect,
+                    fill = Effect,
+                    shape = Effect
+                  )) +
+    geom_line(size = 1, aes(linetype = Effect)) +
+    geom_ribbon(aes(ymin = conf.low, ymax = conf.high),
+                alpha = .15,
+                color = NA) +
+    geom_point(data = rawCont,
+               aes(x = as.numeric(Block), shape = Effect),
+               position = position_dodge(.5),
+               size = 2.5) +
+    geom_errorbar(
+      data = rawCont,
+      aes(
+        x = as.numeric(Block),
+        ymin = estimate - se,
+        ymax = estimate + se
+      ),
+      position = position_dodge(.5),
+      width = .01
+    ) +
+    facet_wrap( ~ Contingency) +
+    scale_x_continuous(breaks = seq(1, 24, 1)) +
+    scale_y_continuous(breaks = seq(-20, 60, 20)) +
+    scale_color_manual(values = list_colors$Effects, name = "Contrast") +
+    scale_fill_manual(values = list_colors$Effects, name = "Contrast") +
+    scale_shape(name = "Contrast") +
+    scale_linetype(name = "Contrast") +
+    labs(y = "Contrast (ms)") +
+    geom_hline(yintercept = 0, linetype = "dashed")+
+    theme_Publication(text_size = 14) + # text size is adjusted for DPI
+    theme(legend.position = "none",
+          plot.margin = unit(c(8, 2, .5, 2), "mm"),
+          strip.text.x = element_text(size = 14)
+    ))
 
 
 # Complementary analysis: Same as before but on accuracy

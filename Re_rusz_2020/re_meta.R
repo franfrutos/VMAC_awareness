@@ -48,7 +48,7 @@ SMD_high_low <- escalc(measure = "SMCC", # choose effect size measure: standardi
                        sd1 = RT_SD_high,          # high reward Standard Deviation
                        sd2 = RT_SD_low,           # low reward Standrad Devation
                        ni = nr_pp,                # sample size(N)
-                       ri = ri,                   # correlation coefficient
+                       ri = rep(.5, length.out = nrow(MA_high_low)),                   # correlation coefficient
                        data = MA_high_low)        # data set to reference
 
 #check the new datasat > should contain 2 new columns, yi = effect size, vi = variance
@@ -90,32 +90,13 @@ no_instructions_predict <- rma(yi2, vi,
 predict(instructions_predict) # Predictions for instructions
 predict(no_instructions_predict) # Predictions for no instructions
 
-# forest plot for instructions only studies:
-# d <- SMD_high_low[SMD_high_low$feature_reward_inf == "yes",]
-# 
-# ES_INF <- rma(yi2, vi, data = d)
-# 
-# tiff("forest_high_low.tiff", width = 5500, height = 8000, units = "px", res = 600) # in this line of code, i tell R to start saving the file and give the limits
-# par(mar=c(4,4,1,3))
-# forest(ES_INF, 
-#        slab = paste(d$Study), 
-#        xlim = c(-5,5),
-#        ylim=c(-1, nrow(d)+3),
-#        addfit = T,
-#        alim=c(-3,3),
-#        cex.lab = .9,
-#        digits=c(2,2), cex=.70, xlab = "Standardized Mean Change", order = "obs")
-# text(-5.0, 93, "Author(s), Year, Study", cex=.9, pos=4, font = 2)
-# text(5, 93, "SMCC [95% CI]", cex=.9, pos=2, font = 2)
-# text(0, 93.5, "High vs Low", cex = 1.2, font = 2)
-# dev.off()
-
 
 # Check: Assuming that not stated are indeed no information provided
 SMD_high_low$feature_reward_inf_2 <- ifelse(SMD_high_low$feature_reward_inf == "not stated" | SMD_high_low$feature_reward_inf == "no", "no", "yes")
 
 moderator_INF_check <- rma(yi2, vi, mods = ~ factor(feature_reward_inf_2), data = SMD_high_low) 
 
+moderator_INF_check
 # no = intercept; 1 coeficient yes vs no
 moderator_INF_check # significant increase in the effect size for studies that report using instructions vs no instructions
 
@@ -128,3 +109,18 @@ moderator_INF_check2 <- rma(yi2, vi, mods = ~ factor(feature_reward_inf_3), data
 # no = intercept; 1 coeficient yes vs no
 moderator_INF_check2 # significant increase in the effect size for studies that report using instructions vs no instructions
 
+# Check 3: Do the moderating effect arose when controlling for type of measure (direct vs. indirect)?
+moderator_INF_check3 <- rma(yi2, vi, mods = ~ factor(feature_reward_inf) + factor(measure), data = SMD_high_low[SMD_high_low$feature_reward_inf != "not stated",]) 
+
+moderator_INF_check3 # Both effects are significant. 
+
+#-----------------------------------------------------------------------
+# Do using money or symbolic reward (points) influence the effect sizes in similar paradigms?
+#-----------------------------------------------------------------------
+moderator_reward <- rma(yi2, vi,
+                        mods = ~ factor(type_reward),
+                        data = SMD_high_low %>% filter(prdgm == "visual search",
+                                                       type_learning == "pavlovian"),
+                        method = "REML") 
+
+moderator_reward

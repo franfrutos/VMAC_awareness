@@ -1,9 +1,6 @@
 # Author: Francisco Garre-Frutos
-# Date: 20/06/2024
 
 # Multiverse analysis reported as supplementary material
-
-source("scripts/functions.R") # This will load functions and data into the workspace
 
 # Load and install packages ----
 if (!require(pacman)) {
@@ -452,22 +449,20 @@ rain <- ggplot(cor_multi, aes(as.factor(NBlocks), cor, color = Group, fill = Gro
   scale_color_manual(values=c("darkblue", "darkorange")) +
   labs(x = "Number of Blocks", y = "Correlation coefficient") +
   scale_x_discrete(labels = c("All blocks", "Last six blocks")) +
-  geom_hline(yintercept = 0, linetype = "dashed") +
-  guides(color = "none", fill = "none") +
-  theme(plot.margin = margin(r = "5", l = "5", b = "1", t = "1", unit = "cm"))
+  geom_hline(yintercept = 0, linetype = "dashed") 
 
 # To create this plot you need to run e2_analysis scipt to generate the top and bottom plots
-ggarrange(leg, top, rain, pcomp_ni, nrow= 4, heights= c(.07, rep((1-.07)/3, times = 3)),
-          labels = c("", "", "c", "d"))
+# ggarrange(leg, top, rain, pcomp_ni, nrow= 4, heights= c(.07, rep((1-.07)/3, times = 3)),
+#           labels = c("", "", "c", "d"))
+
 
 ggsave(
-  "Output/plots/figure4.png",
-  height = 30,
-  width = 22,
-  dpi = 900,
-  units = "cm"
-) 
-
+  "Output/plots/figureSX.png",
+  height = 12,
+  width = 15,
+  unit = "cm",
+  dpi = 1200
+)
 # Multiverse on the correlation between VMAC an the contigency rating for Experiment 1 ----
 dlist <- readRDS("output/data_for_multi1.rds")
 corse1 <- lapply(dlist, \(x) {
