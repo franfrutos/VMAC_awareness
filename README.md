@@ -1,4 +1,4 @@
-# VMAC Depends on explicit awareness project
+# VMAC Depends on awareness project
 
 This project is the repository for all data, scripts, and materials used for the manuscript entitled: "***Value-modulated attentional capture depends on awareness***".
 
